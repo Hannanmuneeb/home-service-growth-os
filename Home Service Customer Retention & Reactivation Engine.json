@@ -1,0 +1,4075 @@
+{
+  "name": "Home Service Customer Retention & Reactivation Engine",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "### SECTION 1: Load Customer Data\nRead sheet → validate email → dedupe → calculate days since last service → categorize.",
+        "height": 540,
+        "width": 2760,
+        "color": 3
+      },
+      "id": "7ddd28df-f71c-429e-a964-d02fde56dc68",
+      "name": "note_SECTION_1:",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2944,
+        -4192
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### SECTION 2: Customer Segmentation\n8 parallel branches split the dataset into every customer segment.",
+        "height": 5620,
+        "width": 380,
+        "color": 3
+      },
+      "id": "72659547-fa58-49c0-9a57-432a545ffa03",
+      "name": "note_SECTION_2:",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        12480,
+        -6976
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### SECTION 3: Reactivation Campaigns\nEmail → wait 5d → check response → reactivated, or follow-up → wait 7d → final reminder.",
+        "height": 920,
+        "width": 3100,
+        "color": 5
+      },
+      "id": "e8b64ead-a04e-4730-bc52-6d1218ed2d06",
+      "name": "note_SECTION_3:",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        7296,
+        -3568
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### SECTION 8: Office Notifications\nWhen a customer responds: alert Discord → log Notion → update the sheet.",
+        "height": 512,
+        "width": 1060,
+        "color": 2
+      },
+      "id": "1ff153b5-cecb-4a36-b339-181d06f97c6a",
+      "name": "note_SECTION_8:",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        10592,
+        -3504
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### SECTION 4: Seasonal Maintenance\nDetermine season → reminder email → update Sheet/Calendar/Notion.",
+        "height": 320,
+        "width": 1740,
+        "color": 6
+      },
+      "id": "a3b85fa3-66cb-4196-ac9c-10a7505db28b",
+      "name": "note_SECTION_4:",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        8160,
+        -4160
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### SECTION 5: Membership Renewal\nReminder 1 → wait 7d → reminder 2 → update status.",
+        "height": 320,
+        "width": 1400,
+        "color": 6
+      },
+      "id": "955425a7-52ea-4615-a9b6-6ba5081fff12",
+      "name": "note_SECTION_5:",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        8160,
+        -4752
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### SECTION 6: Warranty Reminder\nInspection reminder → update CRM fields.",
+        "height": 320,
+        "width": 720,
+        "color": 6
+      },
+      "id": "564c7058-5fec-4e23-8c17-83a48488ba88",
+      "name": "note_SECTION_6:",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        8160,
+        -5312
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### SECTION 7: VIP Customer Care\nAppreciation email + priority booking + loyalty discount → update status.",
+        "height": 320,
+        "width": 720,
+        "color": 6
+      },
+      "id": "8f815902-254b-4127-bebf-eeb4c4103d39",
+      "name": "note_SECTION_7:",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        7792,
+        -5744
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### SECTION 2b: Repeat Customers\nAsk happy repeat customers for referrals.",
+        "height": 320,
+        "width": 720,
+        "color": 3
+      },
+      "id": "dd162802-f51d-4316-afa1-b540cf5e482a",
+      "name": "note_SECTION_2b",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        5568,
+        -3552
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### SECTION 2c: New Customers\nWelcome sequence with care tips for brand-new customers.",
+        "height": 320,
+        "width": 720,
+        "color": 3
+      },
+      "id": "df47d52a-c921-401d-a1c5-1dd38ea9fc4a",
+      "name": "note_SECTION_2c",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        5568,
+        -3136
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### SECTION 9: Monthly Reporting\nOn the 1st: pull metrics → compile → email report → Discord summary → Notion dashboard.",
+        "height": 540,
+        "width": 2420,
+        "color": 7
+      },
+      "id": "323abc14-457a-4737-b2b8-16cb8d81ba22",
+      "name": "note_SECTION_9:",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4320,
+        -5024
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Home Service Customer Retention & Reactivation Engine\nRuns daily at 09:00. Loads the Customer Database, segments customers, runs reactivation + renewal + reminder campaigns via Gmail, logs to Sheets/Notion, alerts the office on Discord, and emails a monthly report.\n\n**Setup:** connect Google Sheets, Gmail, Google Calendar & Notion credentials, select the Customer Database sheet + Notion database, and paste your Discord Webhook URL into the two Discord HTTP Request nodes.",
+        "height": 240,
+        "width": 900,
+        "color": 4
+      },
+      "id": "9618bc61-26db-4f65-8190-1efe576839c1",
+      "name": "note_overview",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4752,
+        -5248
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "id": "2ebba409-494c-4f7c-9638-1052a7e9776c",
+      "name": "Daily 9AM Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        3392,
+        -4448
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M",
+          "mode": "list",
+          "cachedResultName": "customer databse",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1169092864,
+          "mode": "list",
+          "cachedResultName": "Customers",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit#gid=1169092864"
+        },
+        "options": {}
+      },
+      "id": "312ff099-ca4e-49f4-af20-0a9e310747d7",
+      "name": "Get All Customers",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        3696,
+        -4112
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "2cbcbd43",
+              "leftValue": "={{ $json['Email'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "5d0f4203-c248-4a08-aec7-3d9dc441ec1e",
+      "name": "Validate Email",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        4032,
+        -4112
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "92471c2e-81d3-4fdf-a51f-9eaadc1ebb72",
+      "name": "Skip Invalid Record",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        4384,
+        -3888
+      ]
+    },
+    {
+      "parameters": {
+        "compare": "selectedFields",
+        "fieldsToCompare": "Email",
+        "options": {}
+      },
+      "id": "be361828-02cd-408b-9621-8cedb389b0b4",
+      "name": "Remove Duplicate Records",
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 1.1,
+      "position": [
+        4720,
+        -4112
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a0",
+              "name": "daysSinceLastService",
+              "value": "={{ (() => { let v = ($json['Last Service Date'] || '').toString().trim().replace(/[,;]+$/, ''); let dt = DateTime.fromFormat(v, 'yyyy-MM-dd'); if (!dt.isValid) dt = DateTime.fromISO(v); return dt.isValid ? Math.floor((DateTime.now().toMillis() - dt.toMillis()) / 86400000) : 9999; })() }}",
+              "type": "number"
+            },
+            {
+              "id": "a1",
+              "name": "daysToMembershipExpiry",
+              "value": "={{ (() => { let v = ($json['Warranty Expiry'] || '').toString().trim().replace(/[,;]+$/, ''); if (!v) return 9999; let dt = DateTime.fromFormat(v, 'yyyy-MM-dd'); if (!dt.isValid) dt = DateTime.fromISO(v); if (!dt.isValid) return 9999; return Math.floor((dt.toMillis() - DateTime.now().toMillis()) / 86400000); })() }}",
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "daysToWarrantyExpiry",
+              "value": "={{ (() => { let v = ($json['Warranty Expiry'] || '').toString().trim().replace(/[,;]+$/, ''); if (!v) return 9999; let dt = DateTime.fromFormat(v, 'yyyy-MM-dd'); if (!dt.isValid) dt = DateTime.fromISO(v); if (!dt.isValid) return 9999; return Math.floor((dt.toMillis() - DateTime.now().toMillis()) / 86400000); })() }}",
+              "type": "number"
+            },
+            {
+              "id": "a3",
+              "name": "currentMonth",
+              "value": "={{ DateTime.now().monthLong }}",
+              "type": "string"
+            },
+            {
+              "id": "186dc489-f032-41c9-a90a-8e6c8e39f0ad",
+              "name": "=daysToNextMaintenance",
+              "value": "={{ (() => { let v = ($json['Next Maintenance Date'] || '').toString().trim().replace(/[,;]+$/, ''); if (!v) return 9999; let dt = DateTime.fromFormat(v, 'yyyy-MM-dd'); if (!dt.isValid) dt = DateTime.fromISO(v); if (!dt.isValid) return 9999; return Math.floor((dt.toMillis() - DateTime.now().toMillis()) / 86400000); })() }}",
+              "type": "number"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "507249c4-bf6d-4443-873f-1d4ee80a0d10",
+      "name": "Calculate Days Since Last Service",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        5056,
+        -4112
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a0",
+              "name": "isInactive180",
+              "value": "={{ $json.daysSinceLastService >= 180 && $json.daysSinceLastService < 365 }}",
+              "type": "boolean"
+            },
+            {
+              "id": "a1",
+              "name": "isInactive365",
+              "value": "={{ $json.daysSinceLastService >= 365 }}",
+              "type": "boolean"
+            },
+            {
+              "id": "a2",
+              "name": "isMembershipExpiring",
+              "value": "={{ $json.daysToMembershipExpiry >= 0 && $json.daysToMembershipExpiry <= 30 }}",
+              "type": "boolean"
+            },
+            {
+              "id": "a3",
+              "name": "isWarrantyExpiring",
+              "value": "={{ $json.daysToWarrantyExpiry >= 0 && $json.daysToWarrantyExpiry <= 30 }}",
+              "type": "boolean"
+            },
+            {
+              "id": "a4",
+              "name": "isSeasonalDue",
+              "value": "={{ $json.daysToNextMaintenance <= 0 }}",
+              "type": "boolean"
+            },
+            {
+              "id": "a5",
+              "name": "isVIP",
+              "value": "={{ $json['Membership'] === 'VIP' || $json['Customer Status'] === 'VIP' }}",
+              "type": "boolean"
+            },
+            {
+              "id": "a6",
+              "name": "isRepeat",
+              "value": "={{ $json['Referral Status'] === 'Referred' || $json.daysSinceLastService < 180 }}",
+              "type": "boolean"
+            },
+            {
+              "id": "a7",
+              "name": "isNew",
+              "value": "={{ $json.daysSinceLastService <= 30 }}",
+              "type": "boolean"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "56659f9a-1b85-405f-8338-eb9b73548d1e",
+      "name": "Categorize Customers",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        5440,
+        -4112
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M",
+          "mode": "list",
+          "cachedResultName": "customer databse",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1169092864,
+          "mode": "list",
+          "cachedResultName": "Customers",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit#gid=1169092864"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ $json.Email }}",
+            "Customer Status": "={{ $json['Customer Status'] }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Customer Name",
+              "displayName": "Customer Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Service Type",
+              "displayName": "Service Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last Service Date",
+              "displayName": "Last Service Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Membership",
+              "displayName": "Membership",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Warranty Expiry",
+              "displayName": "Warranty Expiry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last Contact",
+              "displayName": "Last Contact",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Customer Status",
+              "displayName": "Customer Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Next Maintenance Date",
+              "displayName": "Next Maintenance Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Referral Status",
+              "displayName": "Referral Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Review Status",
+              "displayName": "Review Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "0f467e8e-4de4-41f5-b864-2866f1a9af15",
+      "name": "Update Working Dataset",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        5728,
+        -3872
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "438c72d2",
+              "leftValue": "={{ $json.isInactive180 }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "b06a841e-43aa-4e6e-b409-d90ec9d4999b",
+      "name": "Filter: Inactive 180+ Days",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        6528,
+        -3872
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a6ca11bf",
+              "leftValue": "={{ $json.isInactive365 }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "2eaf6bbb-bb04-4ec5-8316-69d432729aab",
+      "name": "Filter: Inactive 365+ Days",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        6528,
+        -3584
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "56989c57",
+              "leftValue": "={{ $json.isMembershipExpiring }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "2986d8b2-3385-4d52-8192-9a5ed1cad356",
+      "name": "Filter: Membership Expiring",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        7952,
+        -4608
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "17c98c95",
+              "leftValue": "={{ $json.isWarrantyExpiring }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "2317d1d4-51f0-41c3-be5d-2a84b1cbe691",
+      "name": "Filter: Warranty Expiring",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        7952,
+        -5152
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f3c24183",
+              "leftValue": "={{ $json.isSeasonalDue }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "81e3077a-9de1-4d49-a61b-dec16662d0a6",
+      "name": "Filter: Seasonal Maintenance Due",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        7952,
+        -4000
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f94b7761",
+              "leftValue": "={{ $json.isVIP }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "16ba5128-9ec1-4979-9e4b-85c1f2752096",
+      "name": "Filter: VIP Customers",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        7952,
+        -5552
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ba03ade1",
+              "leftValue": "={{ $json.isRepeat }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "d2d2f6b7-6862-4802-b1c1-85e026094674",
+      "name": "Filter: Repeat Customers",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        5296,
+        -3392
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6b17f3c9",
+              "leftValue": "={{ $json.isNew }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "e7a363da-f04e-4ff0-bc64-1d9369b54701",
+      "name": "Filter: New Customers",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        5296,
+        -2992
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "id": "670e3fbf-561d-4b59-92a7-d8d55bb17086",
+      "name": "Merge Inactive Segments",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        8528,
+        -3040
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "={{ $json['Customer Name'] }}, we miss having you as a customer!",
+        "message": "=<p>Hi {{ $json['Customer Name'] }},</p><p>It's been {{ $json.daysSinceLastService }} days since your last {{ $json['Service Type'] }} service with us. We'd love to have you back — reply to this email or book online to schedule your next visit.</p><p>{{ $json.isInactive365 ? 'As a welcome-back gift, ask about our win-back discount.' : '' }}</p><p>Warm regards,<br/>The Team</p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "5f43f473-3f79-4345-a795-3e42029cf436",
+      "name": "Send Reactivation Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        8864,
+        -3040
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "webhookId": "4851c8a3-c56f-4f8f-acdc-2500bc2f14c1",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "C7jUMG3gmziJEYJu",
+          "name": "Gmail account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {},
+      "id": "7b6a7d5e-66d8-4466-bc30-f8b4d9edb03e",
+      "name": "Wait 5 Days",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        9216,
+        -3040
+      ],
+      "webhookId": "a024ab32-b545-4439-9c3d-043aa0046eed"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M",
+          "mode": "list",
+          "cachedResultName": "customer databse",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1169092864,
+          "mode": "list",
+          "cachedResultName": "Customers",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit#gid=1169092864"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Email",
+              "lookupValue": "={{ $('Merge Inactive Segments').item.json.Email }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a3839b87-89fa-4817-8589-22c16e9f4185",
+      "name": "Lookup Current Status",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        9552,
+        -3040
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5e17a170",
+              "leftValue": "={{ $json['Customer Status'] }}",
+              "rightValue": "Reactivated",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "ca79e5c6-0746-4527-951f-c697e1bc11ea",
+      "name": "Customer Responded?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        9888,
+        -3040
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a0",
+              "name": "Customer Status",
+              "value": "Reactivated",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "44c0eac0-84b6-46cf-a494-167b9901a1d5",
+      "name": "Mark Reactivated",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        10224,
+        -3344
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M",
+          "mode": "list",
+          "cachedResultName": "customer databse",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1169092864,
+          "mode": "list",
+          "cachedResultName": "Customers",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit#gid=1169092864"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ $('Lookup Current Status').item.json.Email }}",
+            "Customer Status": "Reactivated",
+            "Last Contact": "={{ $now.toFormat('yyyy-MM-dd') }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Customer Name",
+              "displayName": "Customer Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Service Type",
+              "displayName": "Service Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Last Service Date",
+              "displayName": "Last Service Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Membership",
+              "displayName": "Membership",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Warranty Expiry",
+              "displayName": "Warranty Expiry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Last Contact",
+              "displayName": "Last Contact",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Customer Status",
+              "displayName": "Customer Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Next Maintenance Date",
+              "displayName": "Next Maintenance Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Referral Status",
+              "displayName": "Referral Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Review Status",
+              "displayName": "Review Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "7ab7a973-a99b-492c-b3f0-7a75c5a94ff6",
+      "name": "Update Status: Reactivated",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        10576,
+        -3344
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://discord.com/api/webhooks/1534042296469946459/6cqZHVgA1HbOKgKVUrTmD48nRXk8zzsV_GAgS5rfMz5pNU0sYHrbTf8QApbObztWqKet",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"content\": \"\\u2705 **Customer Responded**\\n\\n**Customer:** {{ $json['Customer Name'] }}\\n**Email:** {{ $json.Email }}\\n**Status:** {{ $json['Customer Status'] }}\"\n}",
+        "options": {}
+      },
+      "id": "63028e47-74b0-4527-b4b3-ec16d2f8a9e7",
+      "name": "Discord: Notify Office (Response)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        10912,
+        -3344
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "bccefe5b-c821-42d6-affa-2abf83f16ce3",
+          "mode": "list",
+          "cachedResultName": "Home Service Follow-up",
+          "cachedResultUrl": "https://app.notion.com/p/bccefe5bc82142d6affa2abf83f16ce3"
+        },
+        "title": "={{ $json['Customer Name'] }} - Responded",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Email|rich_text",
+              "textContent": "={{ $json.Email }}"
+            },
+            {
+              "key": "Status|select",
+              "selectValue": "Responded"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "87260cf6-0d74-458e-a0db-f5b24de2c48f",
+      "name": "Notion: Log Customer Response",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        11264,
+        -3344
+      ],
+      "credentials": {
+        "notionOAuth2Api": {
+          "id": "ghUGjGGXbwAlKkND",
+          "name": "Notion account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M",
+          "mode": "list",
+          "cachedResultName": "customer databse",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1169092864,
+          "mode": "list",
+          "cachedResultName": "Customers",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit#gid=1169092864"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ $('Lookup Current Status').item.json.Email }}",
+            "Notes": "Office notified of response"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Customer Name",
+              "displayName": "Customer Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Service Type",
+              "displayName": "Service Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last Service Date",
+              "displayName": "Last Service Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Membership",
+              "displayName": "Membership",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Warranty Expiry",
+              "displayName": "Warranty Expiry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last Contact",
+              "displayName": "Last Contact",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Customer Status",
+              "displayName": "Customer Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Next Maintenance Date",
+              "displayName": "Next Maintenance Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Referral Status",
+              "displayName": "Referral Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Review Status",
+              "displayName": "Review Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "3bfda74c-e774-4761-8799-2c268e54b359",
+      "name": "Update Sheet: Office Notified",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        11616,
+        -3312
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "={{ $json['Customer Name'] }}, still thinking it over?",
+        "message": "=<p>Hi {{ $json['Customer Name'] }},</p><p>Just checking in — we're here whenever you're ready to schedule your next {{ $json['Service Type'] }} service. Reply anytime with questions.</p><p>Best,<br/>The Team</p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "600dd348-41f3-4e12-9580-8028a7a1893a",
+      "name": "Send Follow-up Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        7392,
+        -3376
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "webhookId": "f4967ce6-0f14-4f3c-9802-d5ec5c14218a",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "C7jUMG3gmziJEYJu",
+          "name": "Gmail account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "amount": 7
+      },
+      "id": "8f2525d3-db92-400d-ba6b-b6dc16170871",
+      "name": "Wait 7 Days (Follow-up)",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        7808,
+        -3376
+      ],
+      "webhookId": "c2642b64-c7b3-46c7-ad88-7f1094dce745"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Customer Responded?').item.json.Email }}",
+        "subject": "={{ $('Customer Responded?').item.json['Customer Name'] }}, last chance for your loyalty discount",
+        "message": "=<p>Hi {{ $('Customer Responded?').item.json['Customer Name'] }},</p><p>This is our final reminder — book your service this week and we'll apply a loyalty discount to your invoice.</p><p>Best,<br/>The Team</p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "9092bcc8-901b-4315-af15-0412e97120af",
+      "name": "Send Final Reminder",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        8288,
+        -3360
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "webhookId": "6a9d64f6-6984-4857-9643-499b4e3dba02",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "C7jUMG3gmziJEYJu",
+          "name": "Gmail account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M",
+          "mode": "list",
+          "cachedResultName": "customer databse",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1169092864,
+          "mode": "list",
+          "cachedResultName": "Customers",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit#gid=1169092864"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ $('Customer Responded?').item.json.Email }}",
+            "Last Contact": "={{ $('Customer Responded?').item.json['Last Contact'] }}",
+            "Customer Status": "Final Reminder Sent"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Customer Name",
+              "displayName": "Customer Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Service Type",
+              "displayName": "Service Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last Service Date",
+              "displayName": "Last Service Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Membership",
+              "displayName": "Membership",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Warranty Expiry",
+              "displayName": "Warranty Expiry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last Contact",
+              "displayName": "Last Contact",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Customer Status",
+              "displayName": "Customer Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Next Maintenance Date",
+              "displayName": "Next Maintenance Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Referral Status",
+              "displayName": "Referral Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Review Status",
+              "displayName": "Review Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "8356b43c-12f7-4ff5-81cf-5980d6cb0abe",
+      "name": "Update Status: Final Reminder Sent",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        8624,
+        -3360
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a0",
+              "name": "seasonalTip",
+              "value": "={{ ({December:'winterize your system',January:'winterize your system',February:'winterize your system',March:'schedule a spring tune-up',April:'schedule a spring tune-up',May:'schedule a spring tune-up',June:'prep for peak summer demand',July:'prep for peak summer demand',August:'prep for peak summer demand',September:'get a fall inspection',October:'get a fall inspection',November:'get a fall inspection'})[$json.currentMonth] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "629244be-ea87-4b36-b03d-93188f0ff151",
+      "name": "Determine Season & Message",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        8288,
+        -4000
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "={{ $json['Customer Name'] }}, time to {{ $json.seasonalTip }}",
+        "message": "=<p>Hi {{ $json['Customer Name'] }},</p><p>It's {{ $json.currentMonth }} — a great time to {{ $json.seasonalTip }} for your {{ $json['Service Type'] }} system. Book your seasonal maintenance visit today.</p><p>Best,<br/>The Team</p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "9c7d208b-336a-4a5b-a905-49e6c88ef62c",
+      "name": "Send Seasonal Maintenance Reminder",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        8624,
+        -4000
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "webhookId": "09a789d2-7ca7-4817-b84b-5694870d329d",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "C7jUMG3gmziJEYJu",
+          "name": "Gmail account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M",
+          "mode": "list",
+          "cachedResultName": "customer databse",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1169092864,
+          "mode": "list",
+          "cachedResultName": "Customers",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit#gid=1169092864"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Next Maintenance Date": "={{ $now.plus({days: 90}).toFormat('yyyy-MM-dd') }},",
+            "Email": "={{ $('Determine Season & Message').item.json.Email }}",
+            "Last Contact": "={{ $now.toFormat('yyyy-MM-dd') }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Customer Name",
+              "displayName": "Customer Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Service Type",
+              "displayName": "Service Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last Service Date",
+              "displayName": "Last Service Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Membership",
+              "displayName": "Membership",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Warranty Expiry",
+              "displayName": "Warranty Expiry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last Contact",
+              "displayName": "Last Contact",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Customer Status",
+              "displayName": "Customer Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Next Maintenance Date",
+              "displayName": "Next Maintenance Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Referral Status",
+              "displayName": "Referral Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Review Status",
+              "displayName": "Review Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "33a656af-dae9-48bc-9c77-b8bcb466848f",
+      "name": "Update Sheet: Maintenance Reminder Sent",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        8912,
+        -4000
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "hannanmuneeb2010@gmail.com",
+          "mode": "list",
+          "cachedResultName": "hannanmuneeb2010@gmail.com"
+        },
+        "start": "={{ $now.plus({days: 90}).toISO() }}",
+        "end": "={{ $now.plus({days: 90}).plus({hours: 1}).toISO() }}",
+        "additionalFields": {
+          "description": "=Seasonal maintenance for {{ $json['Service Type'] }}",
+          "summary": "=Maintenance: {{ $json['Customer Name'] }}"
+        }
+      },
+      "id": "84fe80cc-4463-46c5-b01d-50c9818bfd0a",
+      "name": "Google Calendar: Create Maintenance Event",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        9248,
+        -4000
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "EFBsepiLLOG5b9l7",
+          "name": "Google Calendar account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "bccefe5b-c821-42d6-affa-2abf83f16ce3",
+          "mode": "list",
+          "cachedResultName": "Home Service Follow-up",
+          "cachedResultUrl": "https://app.notion.com/p/bccefe5bc82142d6affa2abf83f16ce3"
+        },
+        "title": "={{ $json['Customer Name'] }} - Seasonal Maintenance",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Email|rich_text",
+              "textContent": "={{ $('Update Sheet: Maintenance Reminder Sent').item.json.Email }}"
+            },
+            {
+              "key": "Status|select",
+              "selectValue": "Maintenance Scheduled"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "08b8c279-6307-4635-9c3f-a9bc7ea9720d",
+      "name": "Notion: Log Maintenance Reminder",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        9584,
+        -4000
+      ],
+      "credentials": {
+        "notionOAuth2Api": {
+          "id": "ghUGjGGXbwAlKkND",
+          "name": "Notion account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "={{ $json['Customer Name'] }}, your membership expires soon",
+        "message": "=<p>Hi {{ $json['Customer Name'] }},</p><p>Your membership expires in {{ $json.daysToMembershipExpiry }} days. Renew now to keep your priority booking and loyalty perks.</p><p>Best,<br/>The Team</p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "6b859c4f-f9d8-4c27-84a0-542ed64a17ab",
+      "name": "Send Membership Renewal Reminder 1",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        8288,
+        -4608
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "webhookId": "aff6257a-a4bb-46ad-bffe-1299ecca9f2c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "C7jUMG3gmziJEYJu",
+          "name": "Gmail account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "amount": 7
+      },
+      "id": "71cdf789-c64d-49ff-bf9c-529e153f254f",
+      "name": "Wait 7 Days (Membership)",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        8624,
+        -4608
+      ],
+      "webhookId": "0dcf7be9-7a77-4aaa-94e0-23f9d6307cfa"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Filter: Membership Expiring').item.json.Email }}",
+        "subject": "={{ $json['Customer Name'] }}, final notice: membership renewal",
+        "message": "=<p>Hi {{ $json['Customer Name'] }},</p><p>This is your final reminder — your membership is about to lapse. Renew today to avoid a gap in coverage.</p><p>Best,<br/>The Team</p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "dbcbf96d-4019-4769-b091-0865779d2763",
+      "name": "Send Membership Renewal Reminder 2",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        8912,
+        -4608
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "webhookId": "d63d4c49-105d-462f-9f32-4f14cb14e723",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "C7jUMG3gmziJEYJu",
+          "name": "Gmail account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M",
+          "mode": "list",
+          "cachedResultName": "customer databse",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1169092864,
+          "mode": "list",
+          "cachedResultName": "Customers",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit#gid=1169092864"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Last Contact": "={{ $now.toFormat('yyyy-MM-dd') }}",
+            "Membership": "Renewal Reminder Sent,",
+            "Email": "={{ $('Filter: Membership Expiring').item.json.Email }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Customer Name",
+              "displayName": "Customer Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Service Type",
+              "displayName": "Service Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last Service Date",
+              "displayName": "Last Service Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Membership",
+              "displayName": "Membership",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Warranty Expiry",
+              "displayName": "Warranty Expiry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last Contact",
+              "displayName": "Last Contact",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Customer Status",
+              "displayName": "Customer Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Next Maintenance Date",
+              "displayName": "Next Maintenance Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Referral Status",
+              "displayName": "Referral Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Review Status",
+              "displayName": "Review Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "2894e004-b208-439d-b2bc-e15e9ac34a73",
+      "name": "Update Membership Status",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        9248,
+        -4608
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "={{ $json['Customer Name'] }}, your warranty expires in {{ $json.daysToWarrantyExpiry }} days",
+        "message": "=<p>Hi {{ $json['Customer Name'] }},</p><p>Your warranty on your {{ $json['Service Type'] }} system expires in {{ $json.daysToWarrantyExpiry }} days. We recommend scheduling a pre-expiry inspection while you're still covered.</p><p>Best,<br/>The Team</p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "645cd67f-b9b6-4014-9253-bd044f8d5931",
+      "name": "Send Warranty Expiry Reminder",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        8288,
+        -5152
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "webhookId": "c02e9b6b-5cfc-43b8-9127-256f7b3a1fe4",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "C7jUMG3gmziJEYJu",
+          "name": "Gmail account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M",
+          "mode": "list",
+          "cachedResultName": "customer databse",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1169092864,
+          "mode": "list",
+          "cachedResultName": "Customers",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit#gid=1169092864"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ $('Filter: Warranty Expiring').item.json.Email }}",
+            "Notes": "Warranty reminder + inspection recommended,",
+            "Last Contact": "={{ $now.toFormat('yyyy-MM-dd') }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Customer Name",
+              "displayName": "Customer Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Service Type",
+              "displayName": "Service Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last Service Date",
+              "displayName": "Last Service Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Membership",
+              "displayName": "Membership",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Warranty Expiry",
+              "displayName": "Warranty Expiry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last Contact",
+              "displayName": "Last Contact",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Customer Status",
+              "displayName": "Customer Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Next Maintenance Date",
+              "displayName": "Next Maintenance Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Referral Status",
+              "displayName": "Referral Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Review Status",
+              "displayName": "Review Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "d71ebbcd-9e5f-4ae9-8334-ed49d851d2c2",
+      "name": "Update CRM: Warranty Reminder Sent",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        8624,
+        -5152
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "={{ $json['Customer Name'] }}, thank you for being a VIP customer!",
+        "message": "=<p>Hi {{ $json['Customer Name'] }},</p><p>As one of our most valued customers, you get priority booking and an exclusive loyalty discount on your next service. Just reply to claim it.</p><p>Thank you,<br/>The Team</p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "23621ed5-e6df-4888-a82c-45a1bbb48827",
+      "name": "Send VIP Appreciation Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        8320,
+        -5568
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "webhookId": "3de8b69a-a6d5-4d70-83c7-91b2118de3b8",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "C7jUMG3gmziJEYJu",
+          "name": "Gmail account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M",
+          "mode": "list",
+          "cachedResultName": "customer databse",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1169092864,
+          "mode": "list",
+          "cachedResultName": "Customers",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit#gid=1169092864"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ $('Filter: VIP Customers').item.json.Email }}",
+            "Customer Status": "={{ $('Filter: VIP Customers').item.json['Customer Status'] }}",
+            "Last Contact": "={{ $now.toFormat('yyyy-MM-dd') }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Customer Name",
+              "displayName": "Customer Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Service Type",
+              "displayName": "Service Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last Service Date",
+              "displayName": "Last Service Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Membership",
+              "displayName": "Membership",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Warranty Expiry",
+              "displayName": "Warranty Expiry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last Contact",
+              "displayName": "Last Contact",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Customer Status",
+              "displayName": "Customer Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Next Maintenance Date",
+              "displayName": "Next Maintenance Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Referral Status",
+              "displayName": "Referral Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Review Status",
+              "displayName": "Review Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "4656aad8-9838-4562-92fa-be08d175f753",
+      "name": "Update VIP Status",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        8640,
+        -5552
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "={{ $json['Customer Name'] }}, know someone who needs our help?",
+        "message": "=<p>Hi {{ $json['Customer Name'] }},</p><p>Thanks for being a repeat customer! Refer a friend and you'll both get a discount on your next service.</p><p>Best,<br/>The Team</p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "2028dfae-fb86-4a2a-b1d4-21a3b3c109a9",
+      "name": "Send Referral Request Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        5632,
+        -3392
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "webhookId": "8db0065f-1b09-41b8-810c-0e02ec9ff61e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "C7jUMG3gmziJEYJu",
+          "name": "Gmail account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M",
+          "mode": "list",
+          "cachedResultName": "customer databse",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1169092864,
+          "mode": "list",
+          "cachedResultName": "Customers",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit#gid=1169092864"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ $('Filter: Repeat Customers').item.json.Email }}",
+            "Referral Status": "Requested"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Customer Name",
+              "displayName": "Customer Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Service Type",
+              "displayName": "Service Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last Service Date",
+              "displayName": "Last Service Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Membership",
+              "displayName": "Membership",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Warranty Expiry",
+              "displayName": "Warranty Expiry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last Contact",
+              "displayName": "Last Contact",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Customer Status",
+              "displayName": "Customer Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Next Maintenance Date",
+              "displayName": "Next Maintenance Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Referral Status",
+              "displayName": "Referral Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Review Status",
+              "displayName": "Review Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "94ea490f-4fcb-472a-adeb-298f5ce7e61b",
+      "name": "Update Referral Status",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        5968,
+        -3392
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "=Welcome, {{ $json['Customer Name'] }}!",
+        "message": "=<p>Hi {{ $json['Customer Name'] }},</p><p>Welcome to the family! Here are a few tips to get the most out of your new {{ $json['Service Type'] }} service, plus how to reach us anytime.</p><p>Best,<br/>The Team</p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "2fdd9fd9-2242-4394-a731-57d6d3c02578",
+      "name": "Send Welcome & Care Tips Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        5632,
+        -2992
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "webhookId": "afa095d9-94a5-4fe5-b61b-729460263375",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "C7jUMG3gmziJEYJu",
+          "name": "Gmail account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M",
+          "mode": "list",
+          "cachedResultName": "customer databse",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1169092864,
+          "mode": "list",
+          "cachedResultName": "Customers",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit#gid=1169092864"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Email": "={{ $('Filter: New Customers').item.json.Email }}",
+            "Customer Status": "Welcomed"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Customer Name",
+              "displayName": "Customer Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Service Type",
+              "displayName": "Service Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last Service Date",
+              "displayName": "Last Service Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Membership",
+              "displayName": "Membership",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Warranty Expiry",
+              "displayName": "Warranty Expiry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Last Contact",
+              "displayName": "Last Contact",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Customer Status",
+              "displayName": "Customer Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Next Maintenance Date",
+              "displayName": "Next Maintenance Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Referral Status",
+              "displayName": "Referral Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Review Status",
+              "displayName": "Review Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "fd0e7daa-a61f-4480-9baf-4eb24acbb8ee",
+      "name": "Update New Customer Status",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        5968,
+        -2992
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "c1f5fa7f",
+              "leftValue": "={{ $now.day }}",
+              "rightValue": 6,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "fde94975-95a8-4d99-b82b-951bd6e6f447",
+      "name": "Is First Day of Month?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        4256,
+        -4832
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "930ac107-dd49-4335-992c-c7cf0398b8da",
+      "name": "Skip Reporting Today",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        4608,
+        -4608
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M",
+          "mode": "list",
+          "cachedResultName": "customer databse",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1169092864,
+          "mode": "list",
+          "cachedResultName": "Customers",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YM4Y8xOFUIrrQm0k1GZWWd4ZZ1V0KnexR10Oxp2Z03M/edit#gid=1169092864"
+        },
+        "options": {}
+      },
+      "id": "5d0d6e69-ca6c-4c66-b1ed-e6c84325f0ce",
+      "name": "Get Data for Report",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        4944,
+        -4832
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a0",
+              "name": "inactiveCount",
+              "value": "={{ $('Categorize Customers').all().filter(i => i.json.daysSinceLastService >= 180).length }}",
+              "type": "number"
+            },
+            {
+              "id": "a1",
+              "name": "reactivatedCount",
+              "value": "={{ $('Categorize Customers').all().filter(i => i.json['Customer Status'] === 'Reactivated').length }}",
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "maintenanceBookings",
+              "value": "={{ $('Categorize Customers').all().filter(i => i.json['Customer Status'] === 'Maintenance Scheduled').length }}\n",
+              "type": "number"
+            },
+            {
+              "id": "a3",
+              "name": "membershipRenewals",
+              "value": "={{ $('Categorize Customers').all().filter(i => i.json['Membership'] === 'Renewal Reminder Sent').length }}",
+              "type": "number"
+            },
+            {
+              "id": "a4",
+              "name": "warrantyReminders",
+              "value": "={{ $('Categorize Customers').all().filter(i => i.json.Notes && i.json.Notes.includes('Warranty reminder')).length }}",
+              "type": "number"
+            },
+            {
+              "id": "a5",
+              "name": "reportDate",
+              "value": "={{ $now.toFormat('yyyy-MM-dd') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "8f4be971-a5d0-42d3-b082-8b6ecc4d2377",
+      "name": "Compile Monthly Report",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        5216,
+        -4832
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "hannanmuneeb2010@gmail.com",
+        "subject": "=Monthly Customer Retention Report - {{ $json.reportDate }}",
+        "message": "=<h2>Monthly Retention Report</h2><p>Inactive Customers: {{ $json.inactiveCount }}</p><p>Reactivated Customers: {{ $json.reactivatedCount }}</p><p>Maintenance Bookings: {{ $json.maintenanceBookings }}</p><p>Membership Renewals: {{ $json.membershipRenewals }}</p><p>Warranty Reminders Sent: {{ $json.warrantyReminders }}</p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "3aa90ec1-289e-497b-b6ab-dc24b717c0a9",
+      "name": "Send Monthly Report Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        5760,
+        -4832
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "webhookId": "e6eee999-c67b-4f2a-97d7-440def1046d9",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "C7jUMG3gmziJEYJu",
+          "name": "Gmail account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://discord.com/api/webhooks/1534042296469946459/6cqZHVgA1HbOKgKVUrTmD48nRXk8zzsV_GAgS5rfMz5pNU0sYHrbTf8QApbObztWqKet",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"content\": \"\\ud83d\\udcca **Monthly Retention Report**\\n\\nInactive: {{ $json.inactiveCount }}\\nReactivated: {{ $json.reactivatedCount }}\\nMaintenance Bookings: {{ $json.maintenanceBookings }}\\nMembership Renewals: {{ $json.membershipRenewals }}\\nWarranty Reminders: {{ $json.warrantyReminders }}\"\n}",
+        "options": {}
+      },
+      "id": "9e895bac-f4fc-4738-bd52-27e61d0269fa",
+      "name": "Discord: Monthly Summary",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        6064,
+        -4832
+      ],
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "bccefe5b-c821-42d6-affa-2abf83f16ce3",
+          "mode": "list",
+          "cachedResultName": "Home Service Follow-up",
+          "cachedResultUrl": "https://app.notion.com/p/bccefe5bc82142d6affa2abf83f16ce3"
+        },
+        "title": "=Monthly Report - {{ $json.reportDate }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Status|select",
+              "selectValue": "Report Generated"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "dd22cfae-7b28-407b-bec0-f5651229a24f",
+      "name": "Notion: Update Reporting Dashboard",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        6416,
+        -4832
+      ],
+      "credentials": {
+        "notionOAuth2Api": {
+          "id": "ghUGjGGXbwAlKkND",
+          "name": "Notion account"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        5488,
+        -4832
+      ],
+      "id": "33692c79-acf6-420d-9d60-6db89dcb5b0b",
+      "name": "Limit"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Daily 9AM Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get All Customers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get All Customers": {
+      "main": [
+        [
+          {
+            "node": "Validate Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Email": {
+      "main": [
+        [
+          {
+            "node": "Remove Duplicate Records",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Skip Invalid Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove Duplicate Records": {
+      "main": [
+        [
+          {
+            "node": "Calculate Days Since Last Service",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate Days Since Last Service": {
+      "main": [
+        [
+          {
+            "node": "Categorize Customers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Categorize Customers": {
+      "main": [
+        [
+          {
+            "node": "Update Working Dataset",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter: VIP Customers",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter: Warranty Expiring",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter: Membership Expiring",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter: Seasonal Maintenance Due",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter: Inactive 180+ Days",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter: Inactive 365+ Days",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter: New Customers",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter: Repeat Customers",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Is First Day of Month?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Working Dataset": {
+      "main": [
+        []
+      ]
+    },
+    "Filter: Inactive 180+ Days": {
+      "main": [
+        [
+          {
+            "node": "Merge Inactive Segments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter: Inactive 365+ Days": {
+      "main": [
+        [
+          {
+            "node": "Merge Inactive Segments",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge Inactive Segments": {
+      "main": [
+        [
+          {
+            "node": "Send Reactivation Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Reactivation Email": {
+      "main": [
+        [
+          {
+            "node": "Wait 5 Days",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 5 Days": {
+      "main": [
+        [
+          {
+            "node": "Lookup Current Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lookup Current Status": {
+      "main": [
+        [
+          {
+            "node": "Customer Responded?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Customer Responded?": {
+      "main": [
+        [
+          {
+            "node": "Mark Reactivated",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Follow-up Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark Reactivated": {
+      "main": [
+        [
+          {
+            "node": "Update Status: Reactivated",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Status: Reactivated": {
+      "main": [
+        [
+          {
+            "node": "Discord: Notify Office (Response)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discord: Notify Office (Response)": {
+      "main": [
+        [
+          {
+            "node": "Notion: Log Customer Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion: Log Customer Response": {
+      "main": [
+        [
+          {
+            "node": "Update Sheet: Office Notified",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Follow-up Email": {
+      "main": [
+        [
+          {
+            "node": "Wait 7 Days (Follow-up)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 7 Days (Follow-up)": {
+      "main": [
+        [
+          {
+            "node": "Send Final Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Final Reminder": {
+      "main": [
+        [
+          {
+            "node": "Update Status: Final Reminder Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter: Seasonal Maintenance Due": {
+      "main": [
+        [
+          {
+            "node": "Determine Season & Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Determine Season & Message": {
+      "main": [
+        [
+          {
+            "node": "Send Seasonal Maintenance Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Seasonal Maintenance Reminder": {
+      "main": [
+        [
+          {
+            "node": "Update Sheet: Maintenance Reminder Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Sheet: Maintenance Reminder Sent": {
+      "main": [
+        [
+          {
+            "node": "Google Calendar: Create Maintenance Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Calendar: Create Maintenance Event": {
+      "main": [
+        [
+          {
+            "node": "Notion: Log Maintenance Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter: Membership Expiring": {
+      "main": [
+        [
+          {
+            "node": "Send Membership Renewal Reminder 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Membership Renewal Reminder 1": {
+      "main": [
+        [
+          {
+            "node": "Wait 7 Days (Membership)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 7 Days (Membership)": {
+      "main": [
+        [
+          {
+            "node": "Send Membership Renewal Reminder 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Membership Renewal Reminder 2": {
+      "main": [
+        [
+          {
+            "node": "Update Membership Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter: Warranty Expiring": {
+      "main": [
+        [
+          {
+            "node": "Send Warranty Expiry Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Warranty Expiry Reminder": {
+      "main": [
+        [
+          {
+            "node": "Update CRM: Warranty Reminder Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter: VIP Customers": {
+      "main": [
+        [
+          {
+            "node": "Send VIP Appreciation Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send VIP Appreciation Email": {
+      "main": [
+        [
+          {
+            "node": "Update VIP Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter: Repeat Customers": {
+      "main": [
+        [
+          {
+            "node": "Send Referral Request Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Referral Request Email": {
+      "main": [
+        [
+          {
+            "node": "Update Referral Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter: New Customers": {
+      "main": [
+        [
+          {
+            "node": "Send Welcome & Care Tips Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Welcome & Care Tips Email": {
+      "main": [
+        [
+          {
+            "node": "Update New Customer Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is First Day of Month?": {
+      "main": [
+        [
+          {
+            "node": "Get Data for Report",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Skip Reporting Today",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Data for Report": {
+      "main": [
+        [
+          {
+            "node": "Compile Monthly Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compile Monthly Report": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Monthly Report Email": {
+      "main": [
+        [
+          {
+            "node": "Discord: Monthly Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discord: Monthly Summary": {
+      "main": [
+        [
+          {
+            "node": "Notion: Update Reporting Dashboard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Send Monthly Report Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "7d953932-ed02-4044-95ca-2746d017a7a7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "fb770cc39dd277720c2056c7ab1445ad13343a771dc54c274000e739bfddada2"
+  },
+  "nodeGroups": [],
+  "id": "nQ9ooeMalT5iS3tj",
+  "tags": []
+}
