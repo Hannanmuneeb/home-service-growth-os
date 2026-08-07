@@ -1,0 +1,4452 @@
+{
+  "name": "📊 HVAC Executive Dashboard & Business Intelligence System",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 7 * * *"
+            }
+          ]
+        }
+      },
+      "id": "0b8e8f1f-1a6b-4624-ba9e-407ab3362363",
+      "name": "Daily 7AM Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -6368,
+        176
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "957cee3d-11db-4f9a-a87a-cd4ded8d72e0",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -6368,
+        336
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "97d4a3a6-e802-45f6-a298-05a562c2e3f9",
+      "name": "Merge Triggers",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -6144,
+        256
+      ],
+      "notes": "Combines Schedule + Manual trigger paths into one flow"
+    },
+    {
+      "parameters": {
+        "url": "={{$json.crmBaseUrl}}/reports/revenue",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "1768d597-edd3-4b5d-8abf-403f893be32b",
+      "name": "Get Revenue Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -5888,
+        -128
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "XlsTGWB7DiA0ofdl",
+          "name": "Header Auth account"
+        }
+      },
+      "notes": "Replace URL/auth with your actual ServiceTitan, Housecall Pro or Jobber endpoint"
+    },
+    {
+      "parameters": {
+        "url": "={{$json.crmBaseUrl}}/jpm/jobs",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "db1de343-29cc-4e69-a8d4-05a1d5149e30",
+      "name": "Get Jobs Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -5888,
+        48
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "XlsTGWB7DiA0ofdl",
+          "name": "Header Auth account"
+        }
+      },
+      "notes": "Replace URL/auth with your actual ServiceTitan, Housecall Pro or Jobber endpoint"
+    },
+    {
+      "parameters": {
+        "url": "={{$json.crmBaseUrl}}/jpm/appointments",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "93a7a854-f406-4415-a002-c037c781e04f",
+      "name": "Get Bookings Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -5888,
+        208
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "XlsTGWB7DiA0ofdl",
+          "name": "Header Auth account"
+        }
+      },
+      "notes": "Replace URL/auth with your actual ServiceTitan, Housecall Pro or Jobber endpoint"
+    },
+    {
+      "parameters": {
+        "url": "={{$json.crmBaseUrl}}/sales/estimates",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "77bf9269-0e91-4de8-9b4a-60c3017376ff",
+      "name": "Get Estimates Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -5888,
+        384
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "XlsTGWB7DiA0ofdl",
+          "name": "Header Auth account"
+        }
+      },
+      "notes": "Replace URL/auth with your actual ServiceTitan, Housecall Pro or Jobber endpoint"
+    },
+    {
+      "parameters": {
+        "url": "={{$json.crmBaseUrl}}/crm/leads",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "af0fe1ce-5fed-4795-84b2-af27dcc121fa",
+      "name": "Get Lead Sources Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -5888,
+        544
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "XlsTGWB7DiA0ofdl",
+          "name": "Header Auth account"
+        }
+      },
+      "notes": "Replace URL/auth with your actual ServiceTitan, Housecall Pro or Jobber endpoint"
+    },
+    {
+      "parameters": {
+        "url": "https://mybusiness.googleapis.com/v4/accounts/PLACEHOLDER_ACCOUNT_ID/locations/PLACEHOLDER_LOCATION_ID/reviews",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "d996688b-2c16-42bb-88f5-e64a67886448",
+      "name": "Get Google Reviews Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -5888,
+        720
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "XlsTGWB7DiA0ofdl",
+          "name": "Header Auth account"
+        }
+      },
+      "notes": "Replace URL/auth with your actual ServiceTitan, Housecall Pro or Jobber endpoint"
+    },
+    {
+      "parameters": {
+        "url": "={{$json.crmBaseUrl}}/crm/customers?repeat=true",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "2a3ef871-86dc-4d1a-b145-7612eb3b50e4",
+      "name": "Get Repeat Customers Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -5888,
+        880
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "XlsTGWB7DiA0ofdl",
+          "name": "Header Auth account"
+        }
+      },
+      "notes": "Replace URL/auth with your actual ServiceTitan, Housecall Pro or Jobber endpoint"
+    },
+    {
+      "parameters": {
+        "url": "={{$json.crmBaseUrl}}/settings/technicians",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "id": "971c9274-e6e0-4fe4-a9f5-be5606120fd2",
+      "name": "Get Technicians Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -5888,
+        1056
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "XlsTGWB7DiA0ofdl",
+          "name": "Header Auth account"
+        }
+      },
+      "notes": "Replace URL/auth with your actual ServiceTitan, Housecall Pro or Jobber endpoint"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "id": "cca52e4e-f1b1-4781-8693-271d5552401b",
+      "name": "Combine Data 1",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        -5504,
+        32
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "id": "75e8ba9e-0cc0-4dee-bb62-12f184db9bd8",
+      "name": "Combine Data 2",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        -5248,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "id": "41df57ce-7252-45c0-8f5a-94edd769fbd0",
+      "name": "Combine Data 3",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        -4976,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "id": "9e939e61-0cda-40b8-8b28-55921f70f9d4",
+      "name": "Combine Data 4",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        -4720,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "id": "148be832-ea08-4e57-be3f-09104ea3b65b",
+      "name": "Combine Data 5",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        -4464,
+        384
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "id": "f240e414-bb3e-432e-a5fe-d658017a08fc",
+      "name": "Combine Data 6",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        -4208,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "id": "94991c33-7c81-4198-9a4e-209cde9ccf14",
+      "name": "Combine Data 7",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        -3936,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Deduplicate by record id and fill missing numeric/text fields with safe defaults\nconst seen = new Set();\nconst cleaned = [];\nfor (const item of items) {\n  const d = item.json;\n  const key = d.id || JSON.stringify(d);\n  if (seen.has(key)) continue;\n  seen.add(key);\n  d.revenue = d.revenue ?? 0;\n  d.jobs = d.jobs ?? 0;\n  d.rating = d.rating ?? null;\n  d.customerName = d.customerName || 'Unknown';\n  cleaned.push({ json: d });\n}\nreturn cleaned;"
+      },
+      "id": "0a1b6d19-d0d9-4567-b7dd-c154fa9ed64c",
+      "name": "Remove Duplicates & Handle Missing",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3680,
+        336
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Normalize date formats (ISO) and currency (2 decimal USD)\nreturn items.map(item => {\n  const d = item.json;\n  if (d.date) d.date = new Date(d.date).toISOString().split('T')[0];\n  if (typeof d.revenue === 'number') d.revenue = Math.round(d.revenue * 100) / 100;\n  return { json: d };\n});"
+      },
+      "id": "5492df65-a658-4677-bf8f-11f6ee6cd7ff",
+      "name": "Format Dates & Currency",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3408,
+        336
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const all = items.map(i => i.json);\nconst today = new Date().toISOString().split('T')[0];\nconst todayRevenue = all.filter(d => d.date === today).reduce((s,d)=>s+(d.revenue||0),0);\nconst weekAgo = new Date(Date.now()-7*24*60*60*1000).toISOString().split('T')[0];\nconst weeklyRevenue = all.filter(d => d.date >= weekAgo).reduce((s,d)=>s+(d.revenue||0),0);\nconst monthAgo = new Date(Date.now()-30*24*60*60*1000).toISOString().split('T')[0];\nconst monthlyRevenue = all.filter(d => d.date >= monthAgo).reduce((s,d)=>s+(d.revenue||0),0);\nreturn [{ json: { ...items[0]?.json, todayRevenue, weeklyRevenue, monthlyRevenue, records: all } }];"
+      },
+      "id": "79a2b13f-df6c-4890-8935-7db26100b4f8",
+      "name": "Calculate Revenue KPIs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3120,
+        336
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = items[0].json;\nconst records = d.records || [];\nconst jobsCompleted = records.filter(r=>r.status==='completed').length;\nconst openJobs = records.filter(r=>r.status==='open').length;\nconst cancelledJobs = records.filter(r=>r.status==='cancelled').length;\nconst bookings = records.filter(r=>r.type==='booking').length;\nconst pendingEstimates = records.filter(r=>r.estimateStatus==='pending').length;\nconst approvedEstimates = records.filter(r=>r.estimateStatus==='approved').length;\nconst rejectedEstimates = records.filter(r=>r.estimateStatus==='rejected').length;\nconst totalEstimates = pendingEstimates+approvedEstimates+rejectedEstimates;\nconst estimateConversion = totalEstimates ? Math.round((approvedEstimates/totalEstimates)*1000)/10 : 0;\nconst bookingRate = records.length ? Math.round((bookings/records.length)*1000)/10 : 0;\nd.jobsCompleted=jobsCompleted; d.openJobs=openJobs; d.cancelledJobs=cancelledJobs; d.bookings=bookings;\nd.pendingEstimates=pendingEstimates; d.approvedEstimates=approvedEstimates; d.rejectedEstimates=rejectedEstimates;\nd.estimateConversion=estimateConversion; d.bookingRate=bookingRate;\nreturn [{ json: d }];"
+      },
+      "id": "7cf7fb29-6372-4445-b914-bc0b73265fb9",
+      "name": "Calculate Booking & Estimate KPIs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2848,
+        336
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = items[0].json;\nconst records = d.records || [];\nconst completed = records.filter(r=>r.status==='completed');\nconst avgTicket = completed.length ? Math.round((completed.reduce((s,r)=>s+(r.revenue||0),0)/completed.length)*100)/100 : 0;\nconst revenuePerJob = avgTicket;\nconst techs = [...new Set(records.map(r=>r.technicianId).filter(Boolean))];\nconst revenuePerTechnician = techs.length ? Math.round((d.monthlyRevenue/techs.length)*100)/100 : 0;\nd.avgTicket = avgTicket; d.revenuePerJob = revenuePerJob; d.revenuePerTechnician = revenuePerTechnician;\nreturn [{ json: d }];"
+      },
+      "id": "8da51af3-7806-4332-a2ed-fdfa06d18bad",
+      "name": "Calculate Ticket & Per-Tech Revenue",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2560,
+        336
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = items[0].json;\nconst records = d.records || [];\nconst sources = {};\nfor (const r of records) {\n  const src = r.leadSource || 'Unknown';\n  sources[src] = sources[src] || { total: 0, booked: 0 };\n  sources[src].total++;\n  if (r.type === 'booking') sources[src].booked++;\n}\nconst leadSourceBreakdown = Object.entries(sources).map(([source, v]) => ({\n  source, total: v.total, bookingRate: v.total ? Math.round((v.booked/v.total)*1000)/10 : 0\n}));\nleadSourceBreakdown.sort((a,b)=>b.bookingRate-a.bookingRate);\nd.leadSourceBreakdown = leadSourceBreakdown;\nd.bestPerformingSource = leadSourceBreakdown[0]?.source || 'N/A';\nd.worstPerformingSource = leadSourceBreakdown[leadSourceBreakdown.length-1]?.source || 'N/A';\nreturn [{ json: d }];"
+      },
+      "id": "12e38f9b-021f-4397-93a8-e1b4c880fc66",
+      "name": "Lead Source Analysis",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2288,
+        336
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = items[0].json;\nconst records = d.records || [];\nconst techMap = {};\nfor (const r of records.filter(r=>r.status==='completed')) {\n  const t = r.technicianName || r.technicianId || 'Unassigned';\n  techMap[t] = techMap[t] || { jobs: 0, revenue: 0, ratings: [] };\n  techMap[t].jobs++;\n  techMap[t].revenue += (r.revenue||0);\n  if (r.rating) techMap[t].ratings.push(r.rating);\n}\nconst leaderboard = Object.entries(techMap).map(([name, v]) => ({\n  name, jobs: v.jobs, revenue: Math.round(v.revenue*100)/100,\n  avgTicket: v.jobs ? Math.round((v.revenue/v.jobs)*100)/100 : 0,\n  avgRating: v.ratings.length ? Math.round((v.ratings.reduce((s,x)=>s+x,0)/v.ratings.length)*10)/10 : null\n}));\nleaderboard.sort((a,b)=>b.revenue-a.revenue);\nd.technicianLeaderboard = leaderboard;\nd.topTechnician = leaderboard[0]?.name || 'N/A';\nd.lowestPerformer = leaderboard[leaderboard.length-1]?.name || 'N/A';\nreturn [{ json: d }];"
+      },
+      "id": "7557664a-575f-4695-af1a-73e3bbe21bc3",
+      "name": "Technician Performance & Leaderboard",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2000,
+        336
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = items[0].json;\nconst reviews = d.reviews || d.records.filter(r=>r.rating!==undefined && r.rating!==null) || [];\nconst newReviews = reviews.length;\nconst avgRating = reviews.length ? Math.round((reviews.reduce((s,r)=>s+(r.rating||0),0)/reviews.length)*10)/10 : 0;\nconst negativeReviews = reviews.filter(r=>r.rating<=3).length;\nconst positiveReviews = reviews.filter(r=>r.rating>=4).length;\nconst previousAvg = d.previousAvgRating || avgRating;\nconst reviewGrowth = Math.round((avgRating - previousAvg)*100)/100;\nd.newReviews=newReviews; d.avgRating=avgRating; d.negativeReviews=negativeReviews;\nd.positiveReviews=positiveReviews; d.reviewGrowth=reviewGrowth;\nreturn [{ json: d }];"
+      },
+      "id": "ecca1171-e691-4157-a1ae-e7303b4ce48c",
+      "name": "Review Monitoring",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1728,
+        336
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = items[0].json;\nconst revenueTarget = d.revenueTarget || 5000;\nconst revenueScore = Math.min(25, (d.todayRevenue/revenueTarget)*25);\nconst bookingScore = Math.min(20, (d.bookingRate/100)*20);\nconst conversionScore = Math.min(20, (d.estimateConversion/100)*20);\nconst reviewScore = Math.min(20, (d.avgRating/5)*20);\nconst repeatScore = Math.min(15, ((d.repeatCustomerRate||0)/100)*15);\nconst healthScore = Math.round(revenueScore+bookingScore+conversionScore+reviewScore+repeatScore);\nd.businessHealthScore = healthScore;\nd.healthScoreExplanation = `Score built from: Revenue ${Math.round(revenueScore)}/25, Bookings ${Math.round(bookingScore)}/20, Estimate Conversion ${Math.round(conversionScore)}/20, Reviews ${Math.round(reviewScore)}/20, Repeat Customers ${Math.round(repeatScore)}/15.`;\nreturn [{ json: d }];"
+      },
+      "id": "53d2df95-1da1-4e1b-aba0-011bee7af894",
+      "name": "Business Health Score",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1440,
+        336
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: \"llama-3.3-70b-versatile\", messages: [ { role: \"system\", content: \"You are an HVAC business analyst. Respond ONLY with valid JSON, no markdown, no preamble.\" }, { role: \"user\", content: \"Given this business data: \" + JSON.stringify($json) + \"\\n\\nReturn strict JSON with keys: businessSummary, topWins (array of 3), topProblems (array of 3), topOpportunities (array of 3), todaysPriorities (array), recommendedActions (array).\" } ] }) }}",
+        "options": {}
+      },
+      "id": "f4325fa0-2c51-4e6e-a850-87c8292d52f3",
+      "name": "Generate AI Executive Summary",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1168,
+        336
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "XlsTGWB7DiA0ofdl",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const prev = $('Business Health Score').first().json;\nlet aiText = items[0].json.choices?.[0]?.message?.content || '{}';\nlet parsed = {};\ntry { parsed = JSON.parse(aiText); } catch(e) { parsed = { businessSummary: aiText }; }\nreturn [{ json: { ...prev, ai: parsed } }];"
+      },
+      "id": "9215cd85-fe44-42c8-b1b6-799d50893175",
+      "name": "Parse AI Summary",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -880,
+        336
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc",
+          "mode": "list",
+          "cachedResultName": "hvac company database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1883838526,
+          "mode": "list",
+          "cachedResultName": "Revenue",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit#gid=1883838526"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "date"
+          ],
+          "schema": [
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "todayRevenue",
+              "displayName": "todayRevenue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "weeklyRevenue",
+              "displayName": "weeklyRevenue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "monthlyRevenue",
+              "displayName": "monthlyRevenue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "revenue",
+              "displayName": "revenue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "type",
+              "displayName": "type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "technicianId",
+              "displayName": "technicianId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "technicianName",
+              "displayName": "technicianName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "rating",
+              "displayName": "rating",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "leadSource",
+              "displayName": "leadSource",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "estimateStatus",
+              "displayName": "estimateStatus",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "customerName",
+              "displayName": "customerName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "jobs",
+              "displayName": "jobs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "records",
+              "displayName": "records",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "jobsCompleted",
+              "displayName": "jobsCompleted",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "openJobs",
+              "displayName": "openJobs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "cancelledJobs",
+              "displayName": "cancelledJobs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "bookings",
+              "displayName": "bookings",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "pendingEstimates",
+              "displayName": "pendingEstimates",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "approvedEstimates",
+              "displayName": "approvedEstimates",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "rejectedEstimates",
+              "displayName": "rejectedEstimates",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "estimateConversion",
+              "displayName": "estimateConversion",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "bookingRate",
+              "displayName": "bookingRate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "avgTicket",
+              "displayName": "avgTicket",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "revenuePerJob",
+              "displayName": "revenuePerJob",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "revenuePerTechnician",
+              "displayName": "revenuePerTechnician",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "leadSourceBreakdown",
+              "displayName": "leadSourceBreakdown",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "bestPerformingSource",
+              "displayName": "bestPerformingSource",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "worstPerformingSource",
+              "displayName": "worstPerformingSource",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "technicianLeaderboard",
+              "displayName": "technicianLeaderboard",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "topTechnician",
+              "displayName": "topTechnician",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "lowestPerformer",
+              "displayName": "lowestPerformer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "newReviews",
+              "displayName": "newReviews",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "avgRating",
+              "displayName": "avgRating",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "negativeReviews",
+              "displayName": "negativeReviews",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "positiveReviews",
+              "displayName": "positiveReviews",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "reviewGrowth",
+              "displayName": "reviewGrowth",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "businessHealthScore",
+              "displayName": "businessHealthScore",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "healthScoreExplanation",
+              "displayName": "healthScoreExplanation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ai",
+              "displayName": "ai",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "eb698a92-83b5-488d-8757-dd1aded90cc8",
+      "name": "Update Revenue Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -608,
+        -384
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc",
+          "mode": "list",
+          "cachedResultName": "hvac company database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1030032659,
+          "mode": "list",
+          "cachedResultName": "Bookings",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit#gid=1030032659"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "date"
+          ],
+          "schema": [
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "bookings",
+              "displayName": "bookings",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "bookingRate",
+              "displayName": "bookingRate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "jobsCompleted",
+              "displayName": "jobsCompleted",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "openJobs",
+              "displayName": "openJobs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "cancelledJobs",
+              "displayName": "cancelledJobs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "0ebf69ef-a235-483d-820b-767827b46469",
+      "name": "Update Bookings Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -608,
+        -208
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc",
+          "mode": "list",
+          "cachedResultName": "hvac company database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 925097911,
+          "mode": "list",
+          "cachedResultName": "LeadSources",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit#gid=925097911"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "date"
+          ],
+          "schema": [
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "bestPerformingSource",
+              "displayName": "bestPerformingSource",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "worstPerformingSource",
+              "displayName": "worstPerformingSource",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "09dd532c-8a81-4408-bb2c-2138853ca1c2",
+      "name": "Update Lead Sources Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -608,
+        -16
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc",
+          "mode": "list",
+          "cachedResultName": "hvac company database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1529235470,
+          "mode": "list",
+          "cachedResultName": "EstimateConversion",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit#gid=1529235470"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "date"
+          ],
+          "schema": [
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "estimateConversion",
+              "displayName": "estimateConversion",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "pendingEstimates",
+              "displayName": "pendingEstimates",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "approvedEstimates",
+              "displayName": "approvedEstimates",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "rejectedEstimates",
+              "displayName": "rejectedEstimates",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "ace1dc87-1e1a-4d0b-a359-50d69b2c5688",
+      "name": "Update Estimate Conversion Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -608,
+        160
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc",
+          "mode": "list",
+          "cachedResultName": "hvac company database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 357122947,
+          "mode": "list",
+          "cachedResultName": "TechnicianLeaderboard",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit#gid=357122947"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "date"
+          ],
+          "schema": [
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "topTechnician",
+              "displayName": "topTechnician",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "lowestPerformer",
+              "displayName": "lowestPerformer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "acfa5cc1-58e9-48f4-972e-633d31267617",
+      "name": "Update Technician Leaderboard Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -608,
+        336
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc",
+          "mode": "list",
+          "cachedResultName": "hvac company database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 376551751,
+          "mode": "list",
+          "cachedResultName": "BusinessHealthScore",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit#gid=376551751"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "date"
+          ],
+          "schema": [
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "businessHealthScore",
+              "displayName": "businessHealthScore",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "healthScoreExplanation",
+              "displayName": "healthScoreExplanation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "revenue",
+              "displayName": "revenue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "type",
+              "displayName": "type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "technicianId",
+              "displayName": "technicianId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "technicianName",
+              "displayName": "technicianName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "rating",
+              "displayName": "rating",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "leadSource",
+              "displayName": "leadSource",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "estimateStatus",
+              "displayName": "estimateStatus",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "customerName",
+              "displayName": "customerName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "jobs",
+              "displayName": "jobs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "todayRevenue",
+              "displayName": "todayRevenue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "weeklyRevenue",
+              "displayName": "weeklyRevenue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "monthlyRevenue",
+              "displayName": "monthlyRevenue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "records",
+              "displayName": "records",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "jobsCompleted",
+              "displayName": "jobsCompleted",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "openJobs",
+              "displayName": "openJobs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "cancelledJobs",
+              "displayName": "cancelledJobs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "bookings",
+              "displayName": "bookings",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "pendingEstimates",
+              "displayName": "pendingEstimates",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "approvedEstimates",
+              "displayName": "approvedEstimates",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "rejectedEstimates",
+              "displayName": "rejectedEstimates",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "estimateConversion",
+              "displayName": "estimateConversion",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "bookingRate",
+              "displayName": "bookingRate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "avgTicket",
+              "displayName": "avgTicket",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "revenuePerJob",
+              "displayName": "revenuePerJob",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "revenuePerTechnician",
+              "displayName": "revenuePerTechnician",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "leadSourceBreakdown",
+              "displayName": "leadSourceBreakdown",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "bestPerformingSource",
+              "displayName": "bestPerformingSource",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "worstPerformingSource",
+              "displayName": "worstPerformingSource",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "technicianLeaderboard",
+              "displayName": "technicianLeaderboard",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "topTechnician",
+              "displayName": "topTechnician",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "lowestPerformer",
+              "displayName": "lowestPerformer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "newReviews",
+              "displayName": "newReviews",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "avgRating",
+              "displayName": "avgRating",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "negativeReviews",
+              "displayName": "negativeReviews",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "positiveReviews",
+              "displayName": "positiveReviews",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "reviewGrowth",
+              "displayName": "reviewGrowth",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ai",
+              "displayName": "ai",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "772c63c8-66e8-469c-bc3a-bf856df8f21a",
+      "name": "Update Business Health Score Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -608,
+        512
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc",
+          "mode": "list",
+          "cachedResultName": "hvac company database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1168303856,
+          "mode": "list",
+          "cachedResultName": "ReviewGrowth",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit#gid=1168303856"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "date"
+          ],
+          "schema": [
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "newReviews",
+              "displayName": "newReviews",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "avgRating",
+              "displayName": "avgRating",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "positiveReviews",
+              "displayName": "positiveReviews",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "negativeReviews",
+              "displayName": "negativeReviews",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "reviewGrowth",
+              "displayName": "reviewGrowth",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "4fdcdba6-4853-4a3f-980e-e934b3e957dd",
+      "name": "Update Review Growth Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -608,
+        704
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc",
+          "mode": "list",
+          "cachedResultName": "hvac company database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 688044081,
+          "mode": "list",
+          "cachedResultName": "RepeatCustomers",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit#gid=688044081"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "date"
+          ],
+          "schema": [
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "repeatCustomerRate",
+              "displayName": "repeatCustomerRate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "revenue",
+              "displayName": "revenue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "type",
+              "displayName": "type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "technicianId",
+              "displayName": "technicianId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "technicianName",
+              "displayName": "technicianName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "rating",
+              "displayName": "rating",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "leadSource",
+              "displayName": "leadSource",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "estimateStatus",
+              "displayName": "estimateStatus",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "customerName",
+              "displayName": "customerName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "jobs",
+              "displayName": "jobs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "todayRevenue",
+              "displayName": "todayRevenue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "weeklyRevenue",
+              "displayName": "weeklyRevenue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "monthlyRevenue",
+              "displayName": "monthlyRevenue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "records",
+              "displayName": "records",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "jobsCompleted",
+              "displayName": "jobsCompleted",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "openJobs",
+              "displayName": "openJobs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "cancelledJobs",
+              "displayName": "cancelledJobs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "bookings",
+              "displayName": "bookings",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "pendingEstimates",
+              "displayName": "pendingEstimates",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "approvedEstimates",
+              "displayName": "approvedEstimates",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "rejectedEstimates",
+              "displayName": "rejectedEstimates",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "estimateConversion",
+              "displayName": "estimateConversion",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "bookingRate",
+              "displayName": "bookingRate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "avgTicket",
+              "displayName": "avgTicket",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "revenuePerJob",
+              "displayName": "revenuePerJob",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "revenuePerTechnician",
+              "displayName": "revenuePerTechnician",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "leadSourceBreakdown",
+              "displayName": "leadSourceBreakdown",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "bestPerformingSource",
+              "displayName": "bestPerformingSource",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "worstPerformingSource",
+              "displayName": "worstPerformingSource",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "technicianLeaderboard",
+              "displayName": "technicianLeaderboard",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "topTechnician",
+              "displayName": "topTechnician",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "lowestPerformer",
+              "displayName": "lowestPerformer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "newReviews",
+              "displayName": "newReviews",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "avgRating",
+              "displayName": "avgRating",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "negativeReviews",
+              "displayName": "negativeReviews",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "positiveReviews",
+              "displayName": "positiveReviews",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "reviewGrowth",
+              "displayName": "reviewGrowth",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "businessHealthScore",
+              "displayName": "businessHealthScore",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "healthScoreExplanation",
+              "displayName": "healthScoreExplanation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ai",
+              "displayName": "ai",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "dc8d203d-8db1-4dbd-863d-bd18f6e80d1c",
+      "name": "Update Repeat Customers Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -608,
+        880
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = items[0].json;\nconst ai = d.ai || {};\nconst html = `\n<h2>HVAC Daily Business Brief</h2>\n<p><b>Business Health Score:</b> ${d.businessHealthScore}/100</p>\n<p><b>Today's Revenue:</b> $${d.todayRevenue}</p>\n<p><b>Weekly Revenue:</b> $${d.weeklyRevenue}</p>\n<p><b>Monthly Revenue:</b> $${d.monthlyRevenue}</p>\n<p><b>Bookings:</b> ${d.bookings} (Rate: ${d.bookingRate}%)</p>\n<p><b>Top Technician:</b> ${d.topTechnician}</p>\n<p><b>Estimate Conversion:</b> ${d.estimateConversion}%</p>\n<p><b>Review Growth:</b> ${d.reviewGrowth}</p>\n<h3>AI Executive Summary</h3>\n<p>${ai.businessSummary || ''}</p>\n<h3>Today's Priorities</h3>\n<ul>${(ai.todaysPriorities||[]).map(p=>'<li>'+p+'</li>').join('')}</ul>\n`;\nreturn [{ json: { ...d, emailHtml: html } }];"
+      },
+      "id": "156eaa6c-62b9-4a08-90ca-beac5df31add",
+      "name": "Build Owner Email HTML",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -288,
+        336
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.ownerEmail || 'PLACEHOLDER_OWNER_EMAIL@example.com' }}",
+        "subject": "=HVAC Daily Business Brief - Health Score {{$json.businessHealthScore}}/100",
+        "message": "={{ $json.emailHtml }}",
+        "options": {}
+      },
+      "id": "fcd2d2f4-ff24-40c7-b152-b9f27787e84f",
+      "name": "Send Owner Daily Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        336
+      ],
+      "webhookId": "b98040a1-a2b5-4597-8dd2-093cfd29cb46",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "C7jUMG3gmziJEYJu",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "leftValue": "={{$json.todayRevenue}}",
+              "rightValue": "={{$json.revenueTarget || 5000}}",
+              "operator": {
+                "type": "number",
+                "operation": "smaller"
+              },
+              "id": "64f1bf7c-78a5-41ce-83c5-53456ed1033b"
+            },
+            {
+              "id": "bd338103-3cfe-44da-af44-d7447078d108",
+              "leftValue": "={{ $('Build Owner Email HTML').first().json.todayRevenue }}",
+              "rightValue": 5000,
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "id": "8609bf7b-979c-4e6f-af35-f328cdcdc2d2",
+      "name": "Revenue Below Target",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        288,
+        -96
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "=⚠️ Revenue below target: Revenue below target: ${{$json.todayRevenue}} (target $5000)",
+        "options": {}
+      },
+      "id": "e67e2aab-9009-48c2-8b8f-0ec964808bb8",
+      "name": "Alert Low Revenue",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        560,
+        -96
+      ],
+      "webhookId": "e128df4d-c195-4e1f-a2b2-f95110bc9280",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "oyyCJtylvdDWVdIX",
+          "name": "Discord Webhook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "leftValue": "={{$json.estimateConversion}}",
+              "rightValue": "={{$json.conversionTarget || 40}}",
+              "operator": {
+                "type": "number",
+                "operation": "smaller"
+              },
+              "id": "c2c10c24-99ed-4f28-b0a2-0b5301a35b98"
+            },
+            {
+              "id": "8e537e46-5567-4ac5-bcf0-5cc5d86b74b6",
+              "leftValue": "={{ $('Business Health Score').first().json.estimateConversion }}",
+              "rightValue": 40,
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "id": "4a3fb410-eb1a-45c2-abdd-5916b8a0ff3c",
+      "name": "Estimate Conversion Below Target",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        288,
+        112
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "=⚠️ Estimate conversion dropped to {{$json.estimateConversion}}%",
+        "options": {}
+      },
+      "id": "7af86f83-f82a-47cd-85c5-84f4b9ac0000",
+      "name": "Alert Low Conversion",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        560,
+        112
+      ],
+      "webhookId": "1e8b84d4-ad32-4721-bc28-77bc9ad22e96",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "oyyCJtylvdDWVdIX",
+          "name": "Discord Webhook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "leftValue": "={{$json.negativeReviews}}",
+              "rightValue": "=0",
+              "operator": {
+                "type": "number",
+                "operation": "larger"
+              },
+              "id": "bc097436-9760-4598-a0dd-29e0fd2e199f"
+            },
+            {
+              "id": "3cdb8fd6-6e8e-4b20-ac55-ce825e29f527",
+              "leftValue": "={{ $('Business Health Score').first().json.negativeReviews }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "id": "affd5e28-4e31-45f2-b264-4170ce173830",
+      "name": "Negative Review Received",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        288,
+        336
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "=⚠️ {{$json.negativeReviews}} negative review(s) received today",
+        "options": {}
+      },
+      "id": "700dc4b3-e282-4ac6-9455-db48591d5468",
+      "name": "Alert Negative Review",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        560,
+        336
+      ],
+      "webhookId": "392f6565-c952-4dd1-9691-1a3e816ee322",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "oyyCJtylvdDWVdIX",
+          "name": "Discord Webhook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "leftValue": "={{$json.businessHealthScore}}",
+              "rightValue": "={{$json.previousHealthScore || 70}}",
+              "operator": {
+                "type": "number",
+                "operation": "smaller"
+              },
+              "id": "79fa001d-6ea1-4134-9f5d-6681ae06cdd3"
+            },
+            {
+              "id": "3492c3dd-fc27-4cdc-9f72-d2eab0c5e178",
+              "leftValue": "={{ $('Business Health Score').first().json.businessHealthScore }}",
+              "rightValue": 70,
+              "operator": {
+                "type": "number",
+                "operation": "lt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "id": "1a89da8d-68e5-4b2a-8610-29f58d6e7155",
+      "name": "Health Score Dropped",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        288,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "=⚠️ Business Health Score dropped to {{$json.businessHealthScore}}/100",
+        "options": {}
+      },
+      "id": "e03b2730-5895-4411-9fa4-2248452c8bb6",
+      "name": "Alert Health Score Drop",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        560,
+        560
+      ],
+      "webhookId": "6fb63349-c5af-49cf-bf66-0183b46cee2f",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "oyyCJtylvdDWVdIX",
+          "name": "Discord Webhook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 7 * * 1"
+            }
+          ]
+        }
+      },
+      "id": "af12938f-8d5b-4320-97dc-81fb3a06e90f",
+      "name": "Weekly Trigger (Monday)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -6368,
+        1376
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc",
+          "mode": "list",
+          "cachedResultName": "hvac company database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1883838526,
+          "mode": "list",
+          "cachedResultName": "Revenue",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit#gid=1883838526"
+        },
+        "options": {}
+      },
+      "id": "3c499941-cd74-4ab5-b9a5-4fb109b2aeef",
+      "name": "Read Weekly Historical Data",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -6080,
+        1376
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const rows = items.map(i=>i.json);\nconst weeklyRevenue = rows.reduce((s,r)=>s+(Number(r.revenue)||0),0);\nreturn [{ json: { weeklyRevenue, rowCount: rows.length, rows } }];"
+      },
+      "id": "d4b81a7e-a89a-4a9e-989b-b14f2f4c90a8",
+      "name": "Calculate Weekly Report",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -5808,
+        1376
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: \"llama-3.3-70b-versatile\", messages: [ { role: \"system\", content: \"You are an HVAC business analyst. Respond ONLY with valid JSON.\" }, { role: \"user\", content: \"Summarize this week's HVAC business performance as JSON with keys weeklyRevenue, topLeadSource, topTechnician, reviewGrowth, estimateConversion, businessSummary: \" + JSON.stringify($json) } ] }) }}",
+        "options": {}
+      },
+      "id": "8ff705b9-2ab5-4eee-bf1b-79765533e99b",
+      "name": "Weekly AI Business Summary",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -5520,
+        1376
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "XlsTGWB7DiA0ofdl",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "hannanmuneeb2010@gmail.com",
+        "subject": "=Weekly HVAC Business Report",
+        "message": "={{ $json.choices?.[0]?.message?.content || JSON.stringify($json) }}",
+        "options": {}
+      },
+      "id": "e34ccac8-1fc7-4987-81e8-74a3924dd101",
+      "name": "Send Weekly Report Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -5248,
+        1376
+      ],
+      "webhookId": "5d704f1d-eb40-47d4-bf0a-20826964b280",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "C7jUMG3gmziJEYJu",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc",
+          "mode": "list",
+          "cachedResultName": "hvac company database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1402776799,
+          "mode": "list",
+          "cachedResultName": "WeeklyReports",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit#gid=1402776799"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "weeklyRevenue",
+              "displayName": "weeklyRevenue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "rowCount",
+              "displayName": "rowCount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "threadId",
+              "displayName": "threadId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "labelIds",
+              "displayName": "labelIds",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "f6212bf3-53d1-4718-9d51-24df9d2810ff",
+      "name": "Log Weekly Report",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -4960,
+        1376
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 7 1 * *"
+            }
+          ]
+        }
+      },
+      "id": "e5ea1f9b-044b-4a94-b4fd-07b6de8812e1",
+      "name": "Monthly Trigger (1st)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -6368,
+        1632
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc",
+          "mode": "list",
+          "cachedResultName": "hvac company database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1094338522,
+          "mode": "list",
+          "cachedResultName": "MonthlyReports",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit#gid=1094338522"
+        },
+        "options": {}
+      },
+      "id": "8dfc065d-6538-4f49-a596-3539210c3209",
+      "name": "Read Monthly Historical Data",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -6080,
+        1632
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const rows = items.map(i=>i.json);\nconst monthlyRevenue = rows.reduce((s,r)=>s+(Number(r.revenue)||0),0);\nconst monthlyBookings = rows.filter(r=>r.type==='booking').length;\nreturn [{ json: { monthlyRevenue, monthlyBookings, rows } }];"
+      },
+      "id": "ecc3e4a6-cf65-4223-ade5-976914118e36",
+      "name": "Calculate Monthly Report & Trend",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -5808,
+        1632
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: \"llama-3.3-70b-versatile\", messages: [ { role: \"system\", content: \"You are an HVAC business analyst. Respond ONLY with valid JSON.\" }, { role: \"user\", content: \"Analyze this month's HVAC business data and return JSON with keys monthlyRevenue, monthlyBookings, monthlyReviewGrowth, bestTechnician, bestMarketingSource, businessHealthTrend, aiRecommendations (array): \" + JSON.stringify($json) } ] }) }}",
+        "options": {}
+      },
+      "id": "d9028bfc-f020-49f6-ba9e-029f9f7a4dab",
+      "name": "Monthly AI Recommendations",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -5520,
+        1632
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "XlsTGWB7DiA0ofdl",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "hannanmuneeb2010@gmail.com",
+        "subject": "=Monthly HVAC Business Report",
+        "message": "={{ $json.choices?.[0]?.message?.content || JSON.stringify($json) }}",
+        "options": {}
+      },
+      "id": "9edc5aec-a3a5-477c-9153-845f86886c63",
+      "name": "Send Monthly Report Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -5248,
+        1632
+      ],
+      "webhookId": "e85bd9e6-c4aa-4bed-a66e-c04975cb33d4",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "C7jUMG3gmziJEYJu",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc",
+          "mode": "list",
+          "cachedResultName": "hvac company database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1094338522,
+          "mode": "list",
+          "cachedResultName": "MonthlyReports",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit#gid=1094338522"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "monthlyRevenue",
+              "displayName": "monthlyRevenue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "monthlyBookings",
+              "displayName": "monthlyBookings",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "threadId",
+              "displayName": "threadId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "labelIds",
+              "displayName": "labelIds",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "a92a9d55-09ad-49a2-8b09-057c9c4a07a1",
+      "name": "Log Monthly Report",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -4960,
+        1632
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "4712c219-1040-4ee8-9e0e-8b4746a694a1",
+      "name": "Workflow Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -6368,
+        1904
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const e = items[0].json;\nreturn [{ json: {\n  workflow: e.workflow?.name || 'HVAC Executive Dashboard',\n  errorMessage: e.execution?.error?.message || e.trigger?.error?.message || 'Unknown error',\n  timestamp: new Date().toISOString(),\n  nodeName: e.execution?.error?.node?.name || 'Unknown node'\n}}];"
+      },
+      "id": "56dd1695-16cf-45ff-8b14-6b9e1f79adff",
+      "name": "Format Error Log",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -6080,
+        1904
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc",
+          "mode": "list",
+          "cachedResultName": "hvac company database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1483517739,
+          "mode": "list",
+          "cachedResultName": "ErrorLog",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1CKFi4sMmDMS5cGxDv4MjbNa-9tfCdKHtxppyo4wy7zc/edit#gid=1483517739"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "workflow",
+              "displayName": "workflow",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "errorMessage",
+              "displayName": "errorMessage",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "nodeName",
+              "displayName": "nodeName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "a9673ddd-5239-4900-85fc-2b8b23eb4e4c",
+      "name": "Log Error to Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -5808,
+        1904
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "=🔴 Workflow Error in {{$json.workflow}} at node {{$json.nodeName}}: {{$json.errorMessage}}",
+        "options": {}
+      },
+      "id": "b384bdca-af18-4bad-bee3-bfddb13c9239",
+      "name": "Send Discord Error Alert",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -5520,
+        1904
+      ],
+      "webhookId": "7b1aa274-1ad3-4271-8d72-6810936aa18d",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "oyyCJtylvdDWVdIX",
+          "name": "Discord Webhook account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Get Revenue Data": [
+      {
+        "json": {
+          "id": "job_1001",
+          "date": "2026-08-07",
+          "revenue": 4200,
+          "status": "completed",
+          "type": "booking",
+          "technicianId": "tech_01",
+          "technicianName": "Ali Raza",
+          "rating": 5,
+          "leadSource": "Google",
+          "estimateStatus": "approved",
+          "customerName": "Ahmed Khan"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1002",
+          "date": "2026-08-07",
+          "revenue": 1800,
+          "status": "completed",
+          "type": "booking",
+          "technicianId": "tech_02",
+          "technicianName": "Bilal Ahmed",
+          "rating": 4,
+          "leadSource": "Facebook",
+          "estimateStatus": "approved",
+          "customerName": "Sara Malik"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1003",
+          "date": "2026-08-06",
+          "revenue": 3100,
+          "status": "open",
+          "type": "job",
+          "technicianId": "tech_01",
+          "technicianName": "Ali Raza",
+          "rating": null,
+          "leadSource": "Referral",
+          "estimateStatus": "pending",
+          "customerName": "Usman Tariq"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1004",
+          "date": "2026-08-05",
+          "revenue": 950,
+          "status": "cancelled",
+          "type": "job",
+          "technicianId": "tech_02",
+          "technicianName": "Bilal Ahmed",
+          "rating": 2,
+          "leadSource": "Organic",
+          "estimateStatus": "rejected",
+          "customerName": "Fatima Noor"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1005",
+          "date": "2026-08-07",
+          "revenue": 5600,
+          "status": "completed",
+          "type": "booking",
+          "technicianId": "tech_03",
+          "technicianName": "Hamza Iqbal",
+          "rating": 5,
+          "leadSource": "Google",
+          "estimateStatus": "approved",
+          "customerName": "Zainab Sheikh"
+        }
+      }
+    ],
+    "Get Jobs Data": [
+      {
+        "json": {
+          "id": "job_1001",
+          "date": "2026-08-07",
+          "revenue": 4200,
+          "status": "completed",
+          "type": "booking",
+          "technicianId": "tech_01",
+          "technicianName": "Ali Raza",
+          "rating": 5,
+          "leadSource": "Google",
+          "estimateStatus": "approved",
+          "customerName": "Ahmed Khan"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1002",
+          "date": "2026-08-07",
+          "revenue": 1800,
+          "status": "completed",
+          "type": "booking",
+          "technicianId": "tech_02",
+          "technicianName": "Bilal Ahmed",
+          "rating": 4,
+          "leadSource": "Facebook",
+          "estimateStatus": "approved",
+          "customerName": "Sara Malik"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1003",
+          "date": "2026-08-06",
+          "revenue": 3100,
+          "status": "open",
+          "type": "job",
+          "technicianId": "tech_01",
+          "technicianName": "Ali Raza",
+          "rating": null,
+          "leadSource": "Referral",
+          "estimateStatus": "pending",
+          "customerName": "Usman Tariq"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1004",
+          "date": "2026-08-05",
+          "revenue": 950,
+          "status": "cancelled",
+          "type": "job",
+          "technicianId": "tech_02",
+          "technicianName": "Bilal Ahmed",
+          "rating": 2,
+          "leadSource": "Organic",
+          "estimateStatus": "rejected",
+          "customerName": "Fatima Noor"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1005",
+          "date": "2026-08-07",
+          "revenue": 5600,
+          "status": "completed",
+          "type": "booking",
+          "technicianId": "tech_03",
+          "technicianName": "Hamza Iqbal",
+          "rating": 5,
+          "leadSource": "Google",
+          "estimateStatus": "approved",
+          "customerName": "Zainab Sheikh"
+        }
+      }
+    ],
+    "Get Bookings Data": [
+      {
+        "json": {
+          "id": "job_1001",
+          "date": "2026-08-07",
+          "revenue": 4200,
+          "status": "completed",
+          "type": "booking",
+          "technicianId": "tech_01",
+          "technicianName": "Ali Raza",
+          "rating": 5,
+          "leadSource": "Google",
+          "estimateStatus": "approved",
+          "customerName": "Ahmed Khan"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1002",
+          "date": "2026-08-07",
+          "revenue": 1800,
+          "status": "completed",
+          "type": "booking",
+          "technicianId": "tech_02",
+          "technicianName": "Bilal Ahmed",
+          "rating": 4,
+          "leadSource": "Facebook",
+          "estimateStatus": "approved",
+          "customerName": "Sara Malik"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1003",
+          "date": "2026-08-06",
+          "revenue": 3100,
+          "status": "open",
+          "type": "job",
+          "technicianId": "tech_01",
+          "technicianName": "Ali Raza",
+          "rating": null,
+          "leadSource": "Referral",
+          "estimateStatus": "pending",
+          "customerName": "Usman Tariq"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1004",
+          "date": "2026-08-05",
+          "revenue": 950,
+          "status": "cancelled",
+          "type": "job",
+          "technicianId": "tech_02",
+          "technicianName": "Bilal Ahmed",
+          "rating": 2,
+          "leadSource": "Organic",
+          "estimateStatus": "rejected",
+          "customerName": "Fatima Noor"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1005",
+          "date": "2026-08-07",
+          "revenue": 5600,
+          "status": "completed",
+          "type": "booking",
+          "technicianId": "tech_03",
+          "technicianName": "Hamza Iqbal",
+          "rating": 5,
+          "leadSource": "Google",
+          "estimateStatus": "approved",
+          "customerName": "Zainab Sheikh"
+        }
+      }
+    ],
+    "Get Estimates Data": [
+      {
+        "json": {
+          "id": "job_1001",
+          "date": "2026-08-07",
+          "revenue": 4200,
+          "status": "completed",
+          "type": "booking",
+          "technicianId": "tech_01",
+          "technicianName": "Ali Raza",
+          "rating": 5,
+          "leadSource": "Google",
+          "estimateStatus": "approved",
+          "customerName": "Ahmed Khan"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1002",
+          "date": "2026-08-07",
+          "revenue": 1800,
+          "status": "completed",
+          "type": "booking",
+          "technicianId": "tech_02",
+          "technicianName": "Bilal Ahmed",
+          "rating": 4,
+          "leadSource": "Facebook",
+          "estimateStatus": "approved",
+          "customerName": "Sara Malik"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1003",
+          "date": "2026-08-06",
+          "revenue": 3100,
+          "status": "open",
+          "type": "job",
+          "technicianId": "tech_01",
+          "technicianName": "Ali Raza",
+          "rating": null,
+          "leadSource": "Referral",
+          "estimateStatus": "pending",
+          "customerName": "Usman Tariq"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1004",
+          "date": "2026-08-05",
+          "revenue": 950,
+          "status": "cancelled",
+          "type": "job",
+          "technicianId": "tech_02",
+          "technicianName": "Bilal Ahmed",
+          "rating": 2,
+          "leadSource": "Organic",
+          "estimateStatus": "rejected",
+          "customerName": "Fatima Noor"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1005",
+          "date": "2026-08-07",
+          "revenue": 5600,
+          "status": "completed",
+          "type": "booking",
+          "technicianId": "tech_03",
+          "technicianName": "Hamza Iqbal",
+          "rating": 5,
+          "leadSource": "Google",
+          "estimateStatus": "approved",
+          "customerName": "Zainab Sheikh"
+        }
+      }
+    ],
+    "Get Lead Sources Data": [
+      {
+        "json": {
+          "id": "job_1001",
+          "date": "2026-08-07",
+          "revenue": 4200,
+          "status": "completed",
+          "type": "booking",
+          "technicianId": "tech_01",
+          "technicianName": "Ali Raza",
+          "rating": 5,
+          "leadSource": "Google",
+          "estimateStatus": "approved",
+          "customerName": "Ahmed Khan"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1002",
+          "date": "2026-08-07",
+          "revenue": 1800,
+          "status": "completed",
+          "type": "booking",
+          "technicianId": "tech_02",
+          "technicianName": "Bilal Ahmed",
+          "rating": 4,
+          "leadSource": "Facebook",
+          "estimateStatus": "approved",
+          "customerName": "Sara Malik"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1003",
+          "date": "2026-08-06",
+          "revenue": 3100,
+          "status": "open",
+          "type": "job",
+          "technicianId": "tech_01",
+          "technicianName": "Ali Raza",
+          "rating": null,
+          "leadSource": "Referral",
+          "estimateStatus": "pending",
+          "customerName": "Usman Tariq"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1004",
+          "date": "2026-08-05",
+          "revenue": 950,
+          "status": "cancelled",
+          "type": "job",
+          "technicianId": "tech_02",
+          "technicianName": "Bilal Ahmed",
+          "rating": 2,
+          "leadSource": "Organic",
+          "estimateStatus": "rejected",
+          "customerName": "Fatima Noor"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1005",
+          "date": "2026-08-07",
+          "revenue": 5600,
+          "status": "completed",
+          "type": "booking",
+          "technicianId": "tech_03",
+          "technicianName": "Hamza Iqbal",
+          "rating": 5,
+          "leadSource": "Google",
+          "estimateStatus": "approved",
+          "customerName": "Zainab Sheikh"
+        }
+      }
+    ],
+    "Get Google Reviews Data": [
+      {
+        "json": {
+          "id": "job_1001",
+          "date": "2026-08-07",
+          "revenue": 4200,
+          "status": "completed",
+          "type": "booking",
+          "technicianId": "tech_01",
+          "technicianName": "Ali Raza",
+          "rating": 5,
+          "leadSource": "Google",
+          "estimateStatus": "approved",
+          "customerName": "Ahmed Khan"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1002",
+          "date": "2026-08-07",
+          "revenue": 1800,
+          "status": "completed",
+          "type": "booking",
+          "technicianId": "tech_02",
+          "technicianName": "Bilal Ahmed",
+          "rating": 4,
+          "leadSource": "Facebook",
+          "estimateStatus": "approved",
+          "customerName": "Sara Malik"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1003",
+          "date": "2026-08-06",
+          "revenue": 3100,
+          "status": "open",
+          "type": "job",
+          "technicianId": "tech_01",
+          "technicianName": "Ali Raza",
+          "rating": null,
+          "leadSource": "Referral",
+          "estimateStatus": "pending",
+          "customerName": "Usman Tariq"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1004",
+          "date": "2026-08-05",
+          "revenue": 950,
+          "status": "cancelled",
+          "type": "job",
+          "technicianId": "tech_02",
+          "technicianName": "Bilal Ahmed",
+          "rating": 2,
+          "leadSource": "Organic",
+          "estimateStatus": "rejected",
+          "customerName": "Fatima Noor"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1005",
+          "date": "2026-08-07",
+          "revenue": 5600,
+          "status": "completed",
+          "type": "booking",
+          "technicianId": "tech_03",
+          "technicianName": "Hamza Iqbal",
+          "rating": 5,
+          "leadSource": "Google",
+          "estimateStatus": "approved",
+          "customerName": "Zainab Sheikh"
+        }
+      }
+    ],
+    "Get Repeat Customers Data": [
+      {
+        "json": {
+          "id": "job_1001",
+          "date": "2026-08-07",
+          "revenue": 4200,
+          "status": "completed",
+          "type": "booking",
+          "technicianId": "tech_01",
+          "technicianName": "Ali Raza",
+          "rating": 5,
+          "leadSource": "Google",
+          "estimateStatus": "approved",
+          "customerName": "Ahmed Khan"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1002",
+          "date": "2026-08-07",
+          "revenue": 1800,
+          "status": "completed",
+          "type": "booking",
+          "technicianId": "tech_02",
+          "technicianName": "Bilal Ahmed",
+          "rating": 4,
+          "leadSource": "Facebook",
+          "estimateStatus": "approved",
+          "customerName": "Sara Malik"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1003",
+          "date": "2026-08-06",
+          "revenue": 3100,
+          "status": "open",
+          "type": "job",
+          "technicianId": "tech_01",
+          "technicianName": "Ali Raza",
+          "rating": null,
+          "leadSource": "Referral",
+          "estimateStatus": "pending",
+          "customerName": "Usman Tariq"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1004",
+          "date": "2026-08-05",
+          "revenue": 950,
+          "status": "cancelled",
+          "type": "job",
+          "technicianId": "tech_02",
+          "technicianName": "Bilal Ahmed",
+          "rating": 2,
+          "leadSource": "Organic",
+          "estimateStatus": "rejected",
+          "customerName": "Fatima Noor"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1005",
+          "date": "2026-08-07",
+          "revenue": 5600,
+          "status": "completed",
+          "type": "booking",
+          "technicianId": "tech_03",
+          "technicianName": "Hamza Iqbal",
+          "rating": 5,
+          "leadSource": "Google",
+          "estimateStatus": "approved",
+          "customerName": "Zainab Sheikh"
+        }
+      }
+    ],
+    "Get Technicians Data": [
+      {
+        "json": {
+          "id": "job_1001",
+          "date": "2026-08-07",
+          "revenue": 4200,
+          "status": "completed",
+          "type": "booking",
+          "technicianId": "tech_01",
+          "technicianName": "Ali Raza",
+          "rating": 5,
+          "leadSource": "Google",
+          "estimateStatus": "approved",
+          "customerName": "Ahmed Khan"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1002",
+          "date": "2026-08-07",
+          "revenue": 1800,
+          "status": "completed",
+          "type": "booking",
+          "technicianId": "tech_02",
+          "technicianName": "Bilal Ahmed",
+          "rating": 4,
+          "leadSource": "Facebook",
+          "estimateStatus": "approved",
+          "customerName": "Sara Malik"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1003",
+          "date": "2026-08-06",
+          "revenue": 3100,
+          "status": "open",
+          "type": "job",
+          "technicianId": "tech_01",
+          "technicianName": "Ali Raza",
+          "rating": null,
+          "leadSource": "Referral",
+          "estimateStatus": "pending",
+          "customerName": "Usman Tariq"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1004",
+          "date": "2026-08-05",
+          "revenue": 950,
+          "status": "cancelled",
+          "type": "job",
+          "technicianId": "tech_02",
+          "technicianName": "Bilal Ahmed",
+          "rating": 2,
+          "leadSource": "Organic",
+          "estimateStatus": "rejected",
+          "customerName": "Fatima Noor"
+        }
+      },
+      {
+        "json": {
+          "id": "job_1005",
+          "date": "2026-08-07",
+          "revenue": 5600,
+          "status": "completed",
+          "type": "booking",
+          "technicianId": "tech_03",
+          "technicianName": "Hamza Iqbal",
+          "rating": 5,
+          "leadSource": "Google",
+          "estimateStatus": "approved",
+          "customerName": "Zainab Sheikh"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Daily 7AM Trigger": {
+      "main": [
+        [
+          {
+            "node": "Merge Triggers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Merge Triggers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Triggers": {
+      "main": [
+        [
+          {
+            "node": "Get Revenue Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Jobs Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Bookings Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Estimates Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Lead Sources Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Google Reviews Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Repeat Customers Data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Technicians Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Revenue Data": {
+      "main": [
+        [
+          {
+            "node": "Combine Data 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Jobs Data": {
+      "main": [
+        [
+          {
+            "node": "Combine Data 1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Combine Data 1": {
+      "main": [
+        [
+          {
+            "node": "Combine Data 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Bookings Data": {
+      "main": [
+        [
+          {
+            "node": "Combine Data 2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Combine Data 2": {
+      "main": [
+        [
+          {
+            "node": "Combine Data 3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Estimates Data": {
+      "main": [
+        [
+          {
+            "node": "Combine Data 3",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Combine Data 3": {
+      "main": [
+        [
+          {
+            "node": "Combine Data 4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Lead Sources Data": {
+      "main": [
+        [
+          {
+            "node": "Combine Data 4",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Combine Data 4": {
+      "main": [
+        [
+          {
+            "node": "Combine Data 5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Google Reviews Data": {
+      "main": [
+        [
+          {
+            "node": "Combine Data 5",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Combine Data 5": {
+      "main": [
+        [
+          {
+            "node": "Combine Data 6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Repeat Customers Data": {
+      "main": [
+        [
+          {
+            "node": "Combine Data 6",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Combine Data 6": {
+      "main": [
+        [
+          {
+            "node": "Combine Data 7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Technicians Data": {
+      "main": [
+        [
+          {
+            "node": "Combine Data 7",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Combine Data 7": {
+      "main": [
+        [
+          {
+            "node": "Remove Duplicates & Handle Missing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove Duplicates & Handle Missing": {
+      "main": [
+        [
+          {
+            "node": "Format Dates & Currency",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Dates & Currency": {
+      "main": [
+        [
+          {
+            "node": "Calculate Revenue KPIs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate Revenue KPIs": {
+      "main": [
+        [
+          {
+            "node": "Calculate Booking & Estimate KPIs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate Booking & Estimate KPIs": {
+      "main": [
+        [
+          {
+            "node": "Calculate Ticket & Per-Tech Revenue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate Ticket & Per-Tech Revenue": {
+      "main": [
+        [
+          {
+            "node": "Lead Source Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lead Source Analysis": {
+      "main": [
+        [
+          {
+            "node": "Technician Performance & Leaderboard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Technician Performance & Leaderboard": {
+      "main": [
+        [
+          {
+            "node": "Review Monitoring",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Review Monitoring": {
+      "main": [
+        [
+          {
+            "node": "Business Health Score",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Business Health Score": {
+      "main": [
+        [
+          {
+            "node": "Generate AI Executive Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate AI Executive Summary": {
+      "main": [
+        [
+          {
+            "node": "Parse AI Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse AI Summary": {
+      "main": [
+        [
+          {
+            "node": "Update Revenue Sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Update Bookings Sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Update Lead Sources Sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Update Estimate Conversion Sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Update Technician Leaderboard Sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Update Business Health Score Sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Update Review Growth Sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Update Repeat Customers Sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Build Owner Email HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Owner Email HTML": {
+      "main": [
+        [
+          {
+            "node": "Send Owner Daily Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Owner Daily Email": {
+      "main": [
+        [
+          {
+            "node": "Revenue Below Target",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Estimate Conversion Below Target",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Negative Review Received",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Health Score Dropped",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Revenue Below Target": {
+      "main": [
+        [
+          {
+            "node": "Alert Low Revenue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Estimate Conversion Below Target": {
+      "main": [
+        [
+          {
+            "node": "Alert Low Conversion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Negative Review Received": {
+      "main": [
+        [
+          {
+            "node": "Alert Negative Review",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Health Score Dropped": {
+      "main": [
+        [
+          {
+            "node": "Alert Health Score Drop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Trigger (Monday)": {
+      "main": [
+        [
+          {
+            "node": "Read Weekly Historical Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Weekly Historical Data": {
+      "main": [
+        [
+          {
+            "node": "Calculate Weekly Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate Weekly Report": {
+      "main": [
+        [
+          {
+            "node": "Weekly AI Business Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly AI Business Summary": {
+      "main": [
+        [
+          {
+            "node": "Send Weekly Report Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Weekly Report Email": {
+      "main": [
+        [
+          {
+            "node": "Log Weekly Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Monthly Trigger (1st)": {
+      "main": [
+        [
+          {
+            "node": "Read Monthly Historical Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Monthly Historical Data": {
+      "main": [
+        [
+          {
+            "node": "Calculate Monthly Report & Trend",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate Monthly Report & Trend": {
+      "main": [
+        [
+          {
+            "node": "Monthly AI Recommendations",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Monthly AI Recommendations": {
+      "main": [
+        [
+          {
+            "node": "Send Monthly Report Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Monthly Report Email": {
+      "main": [
+        [
+          {
+            "node": "Log Monthly Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Workflow Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Format Error Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Error Log": {
+      "main": [
+        [
+          {
+            "node": "Log Error to Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Error to Sheet": {
+      "main": [
+        [
+          {
+            "node": "Send Discord Error Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "d171d01c-66a8-4702-97e3-6df920cbf598",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "fb770cc39dd277720c2056c7ab1445ad13343a771dc54c274000e739bfddada2"
+  },
+  "nodeGroups": [],
+  "id": "nH2tmSrYBmZeLFLD",
+  "tags": []
+}
