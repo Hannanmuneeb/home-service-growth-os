@@ -1,0 +1,828 @@
+{
+  "name": "Voice AI Lead Qualification",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lead-intake",
+        "options": {}
+      },
+      "id": "ac9ae5eb-ae86-4f18-912b-99cf2a5cc08d",
+      "name": "Lead Intake",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "webhookId": "7c96b301-812b-4ba8-bf3a-de30c63fd1f8"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Format incoming phone numbers to E.164, default country code 92 (Pakistan)\nconst DEFAULT_CC = '92';\nconst out = [];\nfor (const entry of $input.all()) {\n  const body = entry.json.body || entry.json;\n  const raw = String(body.phone == null ? '' : body.phone).trim();\n  let e164 = '';\n  if (raw) {\n    if (raw.trim().startsWith('+')) {\n      e164 = '+' + raw.replace(/\\D/g, '');\n    } else {\n      let digits = raw.replace(/\\D/g, '');\n      if (digits.startsWith('00')) {\n        e164 = '+' + digits.slice(2);\n      } else if (digits.startsWith('0')) {\n        e164 = '+' + DEFAULT_CC + digits.slice(1);\n      } else if (digits.startsWith(DEFAULT_CC)) {\n        e164 = '+' + digits;\n      } else {\n        e164 = '+' + DEFAULT_CC + digits;\n      }\n    }\n  }\n  out.push({\n    json: {\n      name: body.name || '',\n      email: body.email || '',\n      phone_raw: raw,\n      phone: e164,\n      timestamp: new Date().toISOString()\n    },\n  });\n}\nreturn out;"
+      },
+      "id": "ec33739e-36f8-48b2-af17-d88f8e461893",
+      "name": "Format Phone Number",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1c2TMVucRyctu-3OgKQvPnAepRpHmi95nwhOVRUP29rw",
+          "mode": "list",
+          "cachedResultName": "Leads Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1c2TMVucRyctu-3OgKQvPnAepRpHmi95nwhOVRUP29rw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1237645163,
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1c2TMVucRyctu-3OgKQvPnAepRpHmi95nwhOVRUP29rw/edit#gid=1237645163"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Lead ID": "={{ $json.timestamp }}",
+            "Name": "={{ $json.name }}",
+            "Phone": "={{ $json.phone }}",
+            "Email": "={{ $json.email }}",
+            "Status": "New Lead Received"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Lead ID",
+              "displayName": "Lead ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Lead Score",
+              "displayName": "Lead Score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Requested Portfolio",
+              "displayName": "Requested Portfolio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Transcript",
+              "displayName": "Transcript",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Recording URL",
+              "displayName": "Recording URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "845ea409-7516-493f-b744-cfa93378e824",
+      "name": "Log New Lead",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        448,
+        0
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.vapi.ai/call/phone",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"phoneNumberId\": \"0fa3b0a9-9f3d-4a76-ae84-b0af2ddf933e\",\n  \"assistantId\": \"e816fcee-bf27-4c2e-9a37-f3d5c317d90b\",\n  \"customer\": {\n    \"number\": \"+12025550143\"\n  }\n}",
+        "options": {}
+      },
+      "id": "30a2cdc3-b463-493a-af15-52197ac39e50",
+      "name": "Trigger Vapi Call",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        672,
+        0
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "XlsTGWB7DiA0ofdl",
+          "name": "Header Auth account"
+        },
+        "httpBearerAuth": {
+          "id": "PZsAraYHM4FYZdlG",
+          "name": "Bearer Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "vapi-call-completed",
+        "options": {}
+      },
+      "id": "b5d517fc-ce1e-40fe-892f-27f9bdc25084",
+      "name": "Vapi Call Completed",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        320
+      ],
+      "webhookId": "4a74d229-749f-4bd7-ae3a-1ee98374a222"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "groqApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ {\n  \"model\": \"llama-3.3-70b-versatile\",\n  \"temperature\": 0.3,\n  \"messages\": [\n    { \"role\": \"system\", \"content\": \"You are an assistant that writes concise summaries of outbound sales call transcripts. Summarize the customer's needs, interest level, objections and any next steps in 4-6 sentences.\" },\n    { \"role\": \"user\", \"content\": \"Call transcript:\\n\" + ($json.body.message.transcript || \"No transcript available.\") }\n  ]\n} }}",
+        "options": {}
+      },
+      "id": "7adf8e66-0283-4fd5-bb4f-55ee08c46f07",
+      "name": "Summarize Transcript",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        224,
+        320
+      ],
+      "credentials": {
+        "groqApi": {
+          "id": "djnQAd5SWGlZcqbk",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "groqApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ {\n  \"model\": \"llama-3.3-70b-versatile\",\n  \"temperature\": 0,\n  \"response_format\": { \"type\": \"json_object\" },\n  \"messages\": [\n    { \"role\": \"system\", \"content\": \"You extract structured lead-qualification data from a sales call. Respond with ONLY a JSON object with exactly these keys: is_qualified (boolean), requested_portfolio (boolean), lead_score (integer 0-100 reflecting how hot the lead is).\" },\n    { \"role\": \"user\", \"content\": \"Call summary: \" + ($(\"Summarize Transcript\").item.json.choices[0].message.content || \"\") + \"\\n\\nFull transcript: \" + ($(\"Vapi Call Completed\").item.json.body.message.transcript || \"\") }\n  ]\n} }}",
+        "options": {}
+      },
+      "id": "129b597b-197a-40f4-a577-c845ba7cc3f1",
+      "name": "Extract Qualification JSON",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        448,
+        320
+      ],
+      "credentials": {
+        "groqApi": {
+          "id": "djnQAd5SWGlZcqbk",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Parse Groq structured JSON into clean fields\nconst content = ($json.choices && $json.choices[0] && $json.choices[0].message && $json.choices[0].message.content) || '';\nlet parsed = {};\ntry {\n  parsed = JSON.parse(content);\n} catch (e) {\n  const m = String(content).match(/\\{[\\s\\S]*\\}/);\n  if (m) { try { parsed = JSON.parse(m[0]); } catch (_) {} }\n}\n\nlet score = Number(parsed.lead_score);\nif (isNaN(score)) score = 0;\nscore = Math.max(0, Math.min(100, Math.round(score)));\n\nconst toBool = (v) => v === true || String(v).toLowerCase() === 'true';\n\nconst call = ($('Vapi Call Completed').item.json.body && $('Vapi Call Completed').item.json.body.message && $('Vapi Call Completed').item.json.body.message.call) || {};\nconst customer = call.customer || {};\nconst metadata = call.metadata || {};\n\nconst summary = ($('Summarize Transcript').item.json.choices && $('Summarize Transcript').item.json.choices[0] && $('Summarize Transcript').item.json.choices[0].message && $('Summarize Transcript').item.json.choices[0].message.content) || '';\nconst transcript = ($('Vapi Call Completed').item.json.body && $('Vapi Call Completed').item.json.body.message && $('Vapi Call Completed').item.json.body.message.transcript) || '';\n\nreturn {\n  is_qualified: toBool(parsed.is_qualified),\n  requested_portfolio: toBool(parsed.requested_portfolio),\n  lead_score: score,\n  lead_temperature: score >= 60 ? 'Hot' : 'Cold',\n  summary,\n  transcript,\n  lead_name: customer.name || metadata.name || '',\n  lead_email: metadata.email || customer.email || '',\n  lead_phone: customer.number || '',\n};"
+      },
+      "id": "d791e5f0-40a9-45ea-8afa-38876638575a",
+      "name": "Parse Lead Qualification",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "score-gte-60",
+              "leftValue": "={{ $json.lead_score }}",
+              "rightValue": 60,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "f44858cf-fcb0-4523-840d-bcfd16699277",
+      "name": "Hot Lead? (score >= 60)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        896,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "hannanmuneeb2010@gmail.com",
+          "mode": "list",
+          "cachedResultName": "hannanmuneeb2010@gmail.com"
+        },
+        "start": "={{ $now.plus(1, \"day\").set({ hour: 10, minute: 0, second: 0, millisecond: 0 }).toISO() }}",
+        "end": "={{ $now.plus(1, \"day\").set({ hour: 10, minute: 30, second: 0, millisecond: 0 }).toISO() }}",
+        "additionalFields": {
+          "attendees": [
+            "={{ $(\"Parse Lead Qualification\").item.json.lead_email }}"
+          ],
+          "description": "={{ \"Lead score: \" + $(\"Parse Lead Qualification\").item.json.lead_score + \"\\n\\nCall summary:\\n\" + $(\"Parse Lead Qualification\").item.json.summary }}",
+          "sendUpdates": "all",
+          "summary": "={{ \"Qualified Lead Call: \" + $(\"Parse Lead Qualification\").item.json.lead_name }}"
+        }
+      },
+      "id": "b18884ed-cd3c-4c94-8b8e-cb796b9d1e72",
+      "name": "Book Meeting Slot",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        1120,
+        224
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "EFBsepiLLOG5b9l7",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $(\"Parse Lead Qualification\").item.json.lead_email }}",
+        "subject": "={{ \"Great speaking with you, \" + $(\"Parse Lead Qualification\").item.json.lead_name + \" — our portfolio inside\" }}",
+        "message": "={{ \"<p>Hi \" + $(\"Parse Lead Qualification\").item.json.lead_name + \",</p><p>Thank you for the call. It was great learning about your needs. As requested, here is a link to our portfolio:</p><p><a href=\\\"\" + $vars.portfolioUrl + \"\\\">View our portfolio</a></p><p>We have also booked a follow-up meeting slot for us. Looking forward to it!</p>\" }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "df311f5f-2ab6-4b4b-909f-918a5132316a",
+      "name": "Send Portfolio Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1344,
+        224
+      ],
+      "webhookId": "65393637-0de7-4ff1-a1b1-50ad43d291aa",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "C7jUMG3gmziJEYJu",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://discord.com/api/webhooks/1532036577381978112/vx-nWMvhcyUvZR9MtpW7Bmt7_e-nWaW2pRSVzvhyRG8l2WTOsAGmUjXkVe1Zu_VDwxqx",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ {\n  \"content\": \"🔥 Hot lead qualified!\\n**Name:** \" + $(\"Parse Lead Qualification\").item.json.lead_name + \"\\n**Phone:** \" + $(\"Parse Lead Qualification\").item.json.lead_phone + \"\\n**Email:** \" + $(\"Parse Lead Qualification\").item.json.lead_email + \"\\n**Score:** \" + $(\"Parse Lead Qualification\").item.json.lead_score + \"/100\\n**Summary:** \" + $(\"Parse Lead Qualification\").item.json.summary\n} }}",
+        "options": {}
+      },
+      "id": "97f0e9d8-c43d-41ed-ad1d-e9594560752f",
+      "name": "Discord Hot Lead Alert",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1568,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1c2TMVucRyctu-3OgKQvPnAepRpHmi95nwhOVRUP29rw",
+          "mode": "list",
+          "cachedResultName": "Leads Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1c2TMVucRyctu-3OgKQvPnAepRpHmi95nwhOVRUP29rw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1237645163,
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1c2TMVucRyctu-3OgKQvPnAepRpHmi95nwhOVRUP29rw/edit#gid=1237645163"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Lead ID",
+              "displayName": "Lead ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Lead Score",
+              "displayName": "Lead Score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Requested Portfolio",
+              "displayName": "Requested Portfolio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Transcript",
+              "displayName": "Transcript",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Recording URL",
+              "displayName": "Recording URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "daf1afac-0341-47be-b73d-a4fe48d9e4a5",
+      "name": "Update Lead Row",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1792,
+        320
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "hU0DrEh3X9eMK1Hl",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "3b21ca56-fc50-80cd-87fe-c7fac630b391",
+          "mode": "list",
+          "cachedResultName": "Sales Board",
+          "cachedResultUrl": "https://app.notion.com/p/3b21ca56fc5080cd87fec7fac630b391"
+        },
+        "title": "={{ $(\"Parse Lead Qualification\").item.json.lead_name + \" — \" + $(\"Parse Lead Qualification\").item.json.lead_temperature + \" (\" + $(\"Parse Lead Qualification\").item.json.lead_score + \")\" }}",
+        "blockUi": {
+          "blockValues": [
+            {
+              "textContent": "={{ \"Score: \" + $(\"Parse Lead Qualification\").item.json.lead_score + \" | Qualified: \" + $(\"Parse Lead Qualification\").item.json.is_qualified + \" | Portfolio requested: \" + $(\"Parse Lead Qualification\").item.json.requested_portfolio + \"\\n\\n\" + $(\"Parse Lead Qualification\").item.json.summary }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c7e3c56a-e693-487e-9d99-a2ff73122147",
+      "name": "Update Sales Board",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2016,
+        320
+      ],
+      "credentials": {
+        "notionOAuth2Api": {
+          "id": "ghUGjGGXbwAlKkND",
+          "name": "Notion account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "1bf34b4a-0590-4ddb-93a0-b264b35838c7",
+      "name": "Completed Successfully",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2240,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $(\"Parse Lead Qualification\").item.json.lead_email }}",
+        "subject": "Thanks for your time today",
+        "message": "={{ \"<p>Hi \" + $(\"Parse Lead Qualification\").item.json.lead_name + \",</p><p>Thank you for taking the time to speak with us today. It sounds like now might not be the perfect moment, and that is absolutely fine.</p><p>We would love to stay in touch and share helpful resources from time to time. Whenever you are ready, we are here to help.</p><p>Warm regards,<br/>The Team</p>\" }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "3b8acbc7-fae6-496a-81c8-4ff1984ec0c2",
+      "name": "Send Nurture Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1568,
+        416
+      ],
+      "webhookId": "ccf3e441-5b12-4e9c-960d-cb834cfe21a7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "C7jUMG3gmziJEYJu",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "c7c37324-c33d-4f7a-9c97-b42d3962f0ec",
+      "name": "On Workflow Error",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://discord.com/api/webhooks/1532036577381978112/vx-nWMvhcyUvZR9MtpW7Bmt7_e-nWaW2pRSVzvhyRG8l2WTOsAGmUjXkVe1Zu_VDwxqx",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ {\n  \"content\": \"🚨 Workflow error in **\" + ($json.workflow.name || \"Voice Lead Qualification\") + \"**\\n**Node:** \" + (($json.execution && $json.execution.lastNodeExecuted) || \"unknown\") + \"\\n**Error:** \" + (($json.execution && $json.execution.error && $json.execution.error.message) || \"unknown\") + \"\\n**Execution:** \" + (($json.execution && $json.execution.id) || \"n/a\")\n} }}",
+        "options": {}
+      },
+      "id": "15495084-61d0-483b-a852-0f47239aadd9",
+      "name": "Discord Admin Error Alert",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        224,
+        640
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Lead Intake": {
+      "main": [
+        [
+          {
+            "node": "Format Phone Number",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Phone Number": {
+      "main": [
+        [
+          {
+            "node": "Log New Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log New Lead": {
+      "main": [
+        [
+          {
+            "node": "Trigger Vapi Call",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vapi Call Completed": {
+      "main": [
+        [
+          {
+            "node": "Summarize Transcript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize Transcript": {
+      "main": [
+        [
+          {
+            "node": "Extract Qualification JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Qualification JSON": {
+      "main": [
+        [
+          {
+            "node": "Parse Lead Qualification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Lead Qualification": {
+      "main": [
+        [
+          {
+            "node": "Hot Lead? (score >= 60)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hot Lead? (score >= 60)": {
+      "main": [
+        [
+          {
+            "node": "Book Meeting Slot",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Nurture Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Book Meeting Slot": {
+      "main": [
+        [
+          {
+            "node": "Send Portfolio Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Portfolio Email": {
+      "main": [
+        [
+          {
+            "node": "Discord Hot Lead Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discord Hot Lead Alert": {
+      "main": [
+        [
+          {
+            "node": "Update Lead Row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Lead Row": {
+      "main": [
+        [
+          {
+            "node": "Update Sales Board",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Sales Board": {
+      "main": [
+        [
+          {
+            "node": "Completed Successfully",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Nurture Email": {
+      "main": [
+        [
+          {
+            "node": "Update Lead Row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On Workflow Error": {
+      "main": [
+        [
+          {
+            "node": "Discord Admin Error Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "977b8f62-d750-41f2-9020-081395b12891",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "fb770cc39dd277720c2056c7ab1445ad13343a771dc54c274000e739bfddada2"
+  },
+  "nodeGroups": [],
+  "id": "vNJf2Pv7SiRd5RFw",
+  "tags": []
+}
